@@ -201,7 +201,10 @@ public class Fx9C {
             block.getSettings().setJavaScriptEnabled(true);
             block.getSettings().setAppCacheEnabled(true);
             block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-            block.loadUrl(CommentBoxUrl.fbCommentbox(url_id));
+            if (url_id.equalsIgnoreCase("")) {
+                block.loadUrl(CommentBoxUrl.sampleFacebookCommentBox());
+            } else
+                block.loadUrl(CommentBoxUrl.popbeeCommentBox(url_id));
             // Log.d("webview", ur);
             block.setVisibility(View.VISIBLE);
             Fx9C.startToReveal(frame_holder, reveal_time);

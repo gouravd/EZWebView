@@ -36,12 +36,11 @@ public class commentboxfragment extends WebviewCommentBox {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        fragment_comment_box_type = getArguments().getInt(WebviewCommentBox.REQUEST_TYPE);
+        //fragment_comment_box_type = getArguments().getInt(WebviewCommentBox.REQUEST_TYPE);
         //  url_id = getArguments().getString(COMMENT_BOX_ID);
         initBinding(view);
-        setup_commentbox(getArguments().getString(COMMENT_BOX_ID));
-
-
+        //  setup_commentbox(getArguments().getString(COMMENT_BOX_ID));
+        setup_commentbox("");
 
     }
 

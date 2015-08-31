@@ -2,7 +2,7 @@ Advanced Webview
 =====
 
 Feature list
-- [x] no more memory leak
+- [x] no more memory leak issue in video iframe
 - [x] easy web page margin fixed
 - [x] easy web video implementation
 - [x] easy web content display implementation
@@ -11,6 +11,8 @@ Feature list
 
 
 For initiating a webview, simply thing to do this to do it once for all.
+
+[Demo example code][1]
 
 Remote Repo
 ```gradle
@@ -188,3 +190,5 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[1]: https://github.com/jjhesk/EZWebView/tree/master/app/src/main/java/com/hkm/ezwebviewsample

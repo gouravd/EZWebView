@@ -70,7 +70,6 @@ public class basicWVIFragment extends Fragment {
     private static String fromFileRaw(Context ctx, final @RawRes int resource_raw_file_name) {
         StringBuilder sb = new StringBuilder();
         Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
-
         while (s.hasNextLine()) {
             sb.append(s.nextLine() + "\n");
         }

@@ -29,7 +29,6 @@ import java.util.List;
  */
 public class hybridfragment extends Fragment implements URLClient.cb {
 
-
     private NonLeakingWebView block;
     private CircleProgressBar betterCircleBar;
     private RelativeLayout framer;
@@ -95,7 +94,11 @@ public class hybridfragment extends Fragment implements URLClient.cb {
         setup_commentbox("http://google.com");
     }
 
-
+    /**
+     * This is the example code
+     *
+     * @param url_in_full url in full
+     */
     private void setup_commentbox(String url_in_full) {
         Fx9C.setup_url_hypebrid(
                 this,

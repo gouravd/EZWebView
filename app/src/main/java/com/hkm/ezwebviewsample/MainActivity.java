@@ -1,16 +1,21 @@
 package com.hkm.ezwebviewsample;
 
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    FragmentTransaction FT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FT = getFragmentManager().beginTransaction();
+        FT.add(R.id.fragment_fcfx, new hybridfragment(), "yef")
+                .addToBackStack(null).commit();
     }
 
 
@@ -32,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.hybrid) {
-            getFragmentManager().beginTransaction().add(new hybridfragment(), "yef").addToBackStack(null).commit();
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new hybridfragment(), "TA").addToBackStack(null).commit();
             return true;
         } else if (id == R.id.textblock) {
-            getFragmentManager().beginTransaction().add(new basicWVIFragment(), "yef").addToBackStack(null).commit();
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new basicWVIFragment(), "FV").addToBackStack(null).commit();
             return true;
         } else if (id == R.id.video) {
-            getFragmentManager().beginTransaction().add(new commentboxfragment(), "yef").addToBackStack(null).commit();
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new commentboxfragment(), "EG").addToBackStack(null).commit();
             return true;
         }
 
