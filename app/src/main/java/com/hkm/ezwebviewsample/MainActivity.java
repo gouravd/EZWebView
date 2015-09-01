@@ -46,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.video) {
             FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new commentboxfragment(), "EG").addToBackStack(null).commit();
+            FT.replace(R.id.fragment_fcfx, new VideoFra(), "EGC").addToBackStack(null).commit();
+            return true;
+        } else if (id == R.id.comment) {
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new commentboxfragment(), "EGG").addToBackStack(null).commit();
             return true;
         }
 
