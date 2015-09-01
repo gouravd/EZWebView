@@ -121,7 +121,7 @@ public class Fx9C {
         setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, c, cb);
     }
 
-
+    @SuppressLint("SetJavaScriptEnabled")
     private static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -131,11 +131,15 @@ public class Fx9C {
             final HClient.Callback c,
             final Runnable callback_webview
     ) throws Exception {
-        final String cs = In32.cssByContentPost(with(context)) + codeing;
+        final String content_code_final = In32.cssByContentPost(with(context)) + codeing;
         HClient I2 = HClient.with(context, block);
         if (c != null) I2.setController(c);
         block.setWebViewClient(I2);
-        block.loadDataWithBaseURL("", cs, "text/html; charset=utf-8", "UTF-8", null);
+        block.setWebChromeClient(new ChromeLoader());
+        block.getSettings().setJavaScriptEnabled(true);
+        block.getSettings().setPluginState(WebSettings.PluginState.ON);
+        block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
         block.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
@@ -143,6 +147,7 @@ public class Fx9C {
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private static <T> void setup_web_video(
             final T context,
             final RelativeLayout frame_holder,

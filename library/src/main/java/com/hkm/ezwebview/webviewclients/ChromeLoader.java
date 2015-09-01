@@ -1,6 +1,7 @@
 package com.hkm.ezwebview.webviewclients;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -14,7 +15,8 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 public class ChromeLoader extends PreventLeakClientChrome {
     private CircleProgressBar cb;
     private boolean control_webview_show_hide_onload = false;
-    private Activity context;
+    private Activity mActivity;
+
     private ProgressBar cpb;
     private boolean withLoadingText = false;
     private String loadingText;
@@ -28,14 +30,18 @@ public class ChromeLoader extends PreventLeakClientChrome {
     }
 
     public ChromeLoader(Activity c) {
-        context = c;
-        context.setProgressBarVisibility(true);
+        mActivity = c;
+        mActivity.setProgressBarVisibility(true);
         barTitle = c.getTitle();
+    }
+
+    public ChromeLoader() {
+
     }
 
     public ChromeLoader(Activity c, ProgressBar bar) {
         cpb = bar;
-        context = c;
+        mActivity = c;
         barTitle = c.getTitle();
     }
 
@@ -66,11 +72,11 @@ public class ChromeLoader extends PreventLeakClientChrome {
                     view.setVisibility(View.VISIBLE);
             }
 
-        } else if (context != null) {
-            //context.setProgressBarIndeterminateVisibility(true);
+        } else if (mActivity != null) {
+            //mActivity.setProgressBarIndeterminateVisibility(true);
             cpb.setVisibility(View.VISIBLE);
             if (withLoadingText) {
-                context.setTitle(loadingText);
+                mActivity.setTitle(loadingText);
             }
             cpb.setProgress(progress);
             if (control_webview_show_hide_onload && view.getVisibility() == View.VISIBLE)
@@ -78,8 +84,8 @@ public class ChromeLoader extends PreventLeakClientChrome {
             if (progress == 100) {
                 if (withLoadingText) {
                     if (barTitle == null)
-                        context.setTitle("no name");
-                    else context.setTitle(barTitle);
+                        mActivity.setTitle("no name");
+                    else mActivity.setTitle(barTitle);
                 }
                 cpb.setVisibility(View.GONE);
                 if (control_webview_show_hide_onload && view.getVisibility() == View.GONE)

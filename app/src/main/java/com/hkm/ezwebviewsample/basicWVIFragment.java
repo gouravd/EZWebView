@@ -76,6 +76,7 @@ public class basicWVIFragment extends Fragment {
         return sb.toString();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(View v, Bundle b) {
         initBinding(v);
