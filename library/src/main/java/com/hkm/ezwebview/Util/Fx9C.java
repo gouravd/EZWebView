@@ -6,10 +6,12 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
@@ -74,9 +76,17 @@ public class Fx9C {
             final RelativeLayout frame_holder,
             final NonLeakingWebView block,
             final String codeing,
-            final HClient.Callback c
+            final HClient.Callback callback_url_bypass
     ) throws Exception {
-        setup_content_block_wb(context, frame_holder, block, codeing, 1500, false, c, null);
+        setup_content_block_wb(
+                context,
+                frame_holder,
+                block,
+                codeing,
+                1500,
+                false,
+                callback_url_bypass,
+                null);
     }
 
     public static <T> void setup_content_block_wb(
@@ -157,12 +167,12 @@ public class Fx9C {
             final String codeing,
             final int reveal_time,
             final boolean withVideoElements,
-            final HClient.Callback c,
+            final HClient.Callback urlByPass,
             final Runnable callback_webview
     ) throws Exception {
         final String content_code_final = In32.cssByContentPost(with(context)) + codeing;
         HClient I2 = HClient.with(context, block);
-        if (c != null) I2.setController(c);
+        if (urlByPass != null) I2.setController(urlByPass);
         block.setWebViewClient(I2);
         if (withVideoElements) {
             block.setWebChromeClient(new ChromeLoader());
@@ -170,8 +180,11 @@ public class Fx9C {
             block.getSettings().setPluginState(WebSettings.PluginState.ON);
             block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         }
+        //block.setScrollContainer(false);
+        //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
         block.setVisibility(View.VISIBLE);
+
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
         else

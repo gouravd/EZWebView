@@ -3,7 +3,9 @@ package com.hkm.ezwebview.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
@@ -27,6 +29,7 @@ public class RichTextBox extends BasicWebView {
     }
 
     private boolean hasVideo;
+    private ScrollView mScrollViewExternal;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -35,8 +38,22 @@ public class RichTextBox extends BasicWebView {
                 getArguments().getString(HTML5TEXT),
                 hasVideo = getArguments().getBoolean(HASMEDIAEMBED)
         );
+        if (mScrollViewExternal != null) {
+            block.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mScrollViewExternal.requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+        }
+
     }
 
+    public RichTextBox dispatchScrollView(final ScrollView mScrollView) {
+        mScrollViewExternal = mScrollView;
+        return this;
+    }
 
     private void setupContentBox(String code_embeded, boolean watchVideoEnabled) {
         //   final String contentc = fromFileRaw(getActivity(), R.raw.video_sample);

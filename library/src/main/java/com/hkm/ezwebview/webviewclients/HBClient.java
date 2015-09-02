@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.HttpAuthHandler;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -35,12 +36,25 @@ public abstract class HBClient extends PreventLeakClient<Activity> {
 
     private String loginCookie;
 
-    private WebView mWebView;
-    public static String TAG = "hbclient_wat";
+    private final WebView mWebView;
+    public static String TAG = "AppHBClient";
+    private final Activity appActivity;
 
     public HBClient(Activity app, WebView w) {
         super(app);
+        appActivity = app;
         mWebView = w;
+        mWebView.addJavascriptInterface(this, TAG);
+    }
+
+    @JavascriptInterface
+    public void resize(final float height) {
+        appActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+             /*   mWebView.setLayoutParams(new LinearLayout.LayoutParams(appActivity.getResources().getDisplayMetrics().widthPixels, (int) (height * appActivity.getResources().getDisplayMetrics().density)));*/
+            }
+        });
     }
 
     protected abstract void retrieveCookie(final String cookie_string);
@@ -70,6 +84,8 @@ public abstract class HBClient extends PreventLeakClient<Activity> {
     public void onPageFinished(WebView view, String url) {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setCookie(url, loginCookie);
+        view.invalidate();
+        // view.loadUrl("javascript:" + TAG + ".resize(document.body.getBoundingClientRect().height)");
     }
 
     @Override

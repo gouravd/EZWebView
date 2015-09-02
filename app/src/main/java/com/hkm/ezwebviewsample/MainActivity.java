@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FT = getFragmentManager().beginTransaction();
-        FT.add(R.id.fragment_fcfx, new hybridfragment(), "yef")
+        FT.add(R.id.fragment_fcfx, new OfflineFragments(), "offlinemainfragment")
                 .addToBackStack(null).commit();
     }
 
