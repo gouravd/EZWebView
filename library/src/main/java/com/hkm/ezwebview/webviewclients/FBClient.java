@@ -13,7 +13,6 @@ import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
 public class FBClient extends PreventLeakClient {
 
     private String loginCookie;
-
     private WebView mWebView;
     public static String TAG = "hypebeastPathsWatcher";
     private String authCallback = "...";

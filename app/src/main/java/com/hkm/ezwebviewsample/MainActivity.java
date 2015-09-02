@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hkm.ezwebview.Util.In32;
+import com.hkm.ezwebview.app.RichTextBox;
+import com.hkm.ezwebview.app.VideoFrameBox;
+
 public class MainActivity extends AppCompatActivity {
     FragmentTransaction FT;
 
@@ -34,7 +38,16 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.libVideoFragment) {
+            final String code = In32.fromFileRaw(this, R.raw.video_sample);
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, VideoFrameBox.with(code, 400), "EGG").addToBackStack(null).commit();
+            return true;
+        }
+        if (id == R.id.libRichTx) {
+            final String code = In32.fromFileRaw(this, R.raw.sample_no_video);
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, RichTextBox.with(code), "EGG").addToBackStack(null).commit();
             return true;
         } else if (id == R.id.hybrid) {
             FT = getFragmentManager().beginTransaction();
@@ -42,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.textblock) {
             FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new basicWVIFragment(), "FV").addToBackStack(null).commit();
+            FT.replace(R.id.fragment_fcfx, new OfflineWeb(), "FV").addToBackStack(null).commit();
             return true;
         } else if (id == R.id.video) {
             FT = getFragmentManager().beginTransaction();

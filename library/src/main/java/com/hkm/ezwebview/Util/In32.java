@@ -49,12 +49,20 @@ public class In32 {
         }
     }
 
+    public static boolean hasNoVideoElement(String txt) {
+        return txt.lastIndexOf("iframe") == -1 && txt.lastIndexOf("IFRAME") == -1;
+    }
+
     public static String cssByContentPost(Context context) {
-        return cssframework(context, R.raw.main_css);
+        return cssframework(context, R.raw.popbee_v6);
     }
 
     public static String cssByVideo(Context context) {
         return cssframework(context, R.raw.videoconfig);
+    }
+
+    public static String cssRawName(Context context, @RawRes int resId) {
+        return cssframework(context, resId);
     }
 
     /**
@@ -130,5 +138,15 @@ public class In32 {
         }
         openOtherUri(url, activity);
         return true;
+    }
+
+
+    public static String fromFileRaw(Context ctx, final @RawRes int resource_raw_file_name) {
+        StringBuilder sb = new StringBuilder();
+        Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
+        while (s.hasNextLine()) {
+            sb.append(s.nextLine() + "\n");
+        }
+        return sb.toString();
     }
 }

@@ -2,6 +2,7 @@ package com.hkm.ezwebviewsample;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -13,13 +14,11 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.webviewclients.HClient;
-import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
@@ -30,7 +29,7 @@ import java.util.Scanner;
 /**
  * Created by hesk on 1/9/15.
  */
-public class VideoFra extends Fragment implements URLClient.cb, HClient.Callback {
+public class VideoFra extends Fragment {
 
     private NonLeakingWebView block;
     private CircleProgressBar betterCircleBar;
@@ -51,16 +50,16 @@ public class VideoFra extends Fragment implements URLClient.cb, HClient.Callback
     }
 
     protected int get_layout_id() {
-        return com.hkm.ezwebview.R.layout.videof;
+        return R.layout.videof;
     }
 
 
     @SuppressLint("ResourceAsColor")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void initBinding(View v) {
-        betterCircleBar = (CircleProgressBar) v.findViewById(com.hkm.ezwebview.R.id.progressloadingbarpx);
-        block = (NonLeakingWebView) v.findViewById(com.hkm.ezwebview.R.id.videoplayer);
-        framer = (RelativeLayout) v.findViewById(com.hkm.ezwebview.R.id.framevideoplayer);
+        betterCircleBar = (CircleProgressBar) v.findViewById(R.id.progressloadingbarpx);
+        block = (NonLeakingWebView) v.findViewById(R.id.videoplayer);
+        framer = (RelativeLayout) v.findViewById(R.id.framevideoplayer);
     }
 
     private void killWebView(NonLeakingWebView mWebView) {
@@ -90,15 +89,6 @@ public class VideoFra extends Fragment implements URLClient.cb, HClient.Callback
         killWebView(block);
     }
 
-    private static String fromFileRaw(Context ctx, final @RawRes int resource_raw_file_name) {
-        StringBuilder sb = new StringBuilder();
-        Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
-        while (s.hasNextLine()) {
-            sb.append(s.nextLine() + "\n");
-        }
-        return sb.toString();
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initBinding(view);
@@ -109,7 +99,7 @@ public class VideoFra extends Fragment implements URLClient.cb, HClient.Callback
      * This is the example code
      */
     private void setup_video() {
-        final String contentc = fromFileRaw(getActivity(), R.raw.sample_html);
+        final String contentc = In32.fromFileRaw(getActivity(), R.raw.video_sample);
         try {
             Fx9C.setup_web_video(
                     this,
@@ -117,21 +107,33 @@ public class VideoFra extends Fragment implements URLClient.cb, HClient.Callback
                     block,
                     betterCircleBar,
                     contentc,
-                    2000,
-                    this, null);
+                    new HClient.Callback() {
+                        @Override
+                        public void retrieveCookie(String cookie_string) {
+                            // return In32.interceptURL_cart(url, getAllow(), getInternal(), this);
+                        }
+
+                        @Override
+                        public boolean overridedefaultlogic(String url, Activity activity) {
+                            return false;
+                        }
+                    },
+                    new Runnable() {
+
+                        /**
+                         * Starts executing the active part of the class' code. This method is
+                         * called when a thread is started that has been created with a class which
+                         * implements {@code Runnable}.
+                         */
+                        @Override
+                        public void run() {
+
+                        }
+                    });
 
         } catch (Exception e) {
         }
 
     }
 
-    @Override
-    public void triggerNative(Uri trigger_url) {
-
-    }
-
-    @Override
-    public boolean interceptUrl(String url, WebView wb) {
-        return In32.interceptURL_cart(url, getAllow(), getInternal(), this);
-    }
 }

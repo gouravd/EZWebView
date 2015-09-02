@@ -2,6 +2,7 @@ package com.hkm.ezwebview.webviewclients;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -13,7 +14,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
  * Created by hesk on 3/13/15.
  */
 public class ChromeLoader extends PreventLeakClientChrome {
-    private CircleProgressBar cb;
+    private CircleProgressBar mCircleProgressBar;
     private boolean control_webview_show_hide_onload = false;
     private Activity mActivity;
 
@@ -21,12 +22,18 @@ public class ChromeLoader extends PreventLeakClientChrome {
     private boolean withLoadingText = false;
     private String loadingText;
     private CharSequence barTitle;
+    private int time_of_fade = 0;
+
+    public ChromeLoader(CircleProgressBar circlebar, int time_fade) {
+        this(circlebar);
+        time_of_fade = time_fade;
+    }
 
     public ChromeLoader(CircleProgressBar circlebar) {
-        cb = circlebar;
-        cb.setCircleBackgroundEnabled(true);
-        cb.setVisibility(View.VISIBLE);
-        cb.setShowProgressText(true);
+        mCircleProgressBar = circlebar;
+        mCircleProgressBar.setCircleBackgroundEnabled(true);
+        mCircleProgressBar.setVisibility(View.VISIBLE);
+        mCircleProgressBar.setShowProgressText(true);
     }
 
     public ChromeLoader(Activity c) {
@@ -58,16 +65,26 @@ public class ChromeLoader extends PreventLeakClientChrome {
 
     @Override
     public void onProgressChanged(WebView view, int progress) {
-        if (cb != null) {
+        if (mCircleProgressBar != null) {
             if (progress < 100) {
-                cb.setProgress(progress);
-                if (cb.getVisibility() == View.GONE) {
-                    cb.setVisibility(View.VISIBLE);
+                mCircleProgressBar.setProgress(progress);
+                if (mCircleProgressBar.getVisibility() == View.GONE) {
+                    mCircleProgressBar.setVisibility(View.VISIBLE);
                 }
                 if (control_webview_show_hide_onload && view.getVisibility() == View.VISIBLE)
                     view.setVisibility(View.GONE);
             } else {
-                cb.setVisibility(View.GONE);
+                if (time_of_fade > 0) {
+                    ViewCompat.animate(mCircleProgressBar).alpha(0f).withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCircleProgressBar.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
+                    mCircleProgressBar.setVisibility(View.GONE);
+                }
+
                 if (control_webview_show_hide_onload && view.getVisibility() == View.GONE)
                     view.setVisibility(View.VISIBLE);
             }

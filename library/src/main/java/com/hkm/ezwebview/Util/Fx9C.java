@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
 
+import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.FBClient;
 import com.hkm.ezwebview.webviewclients.HClient;
@@ -18,6 +19,7 @@ import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -74,9 +76,8 @@ public class Fx9C {
             final String codeing,
             final HClient.Callback c
     ) throws Exception {
-        setup_content_block_wb(context, frame_holder, block, codeing, 1500, c, null);
+        setup_content_block_wb(context, frame_holder, block, codeing, 1500, false, c, null);
     }
-
 
     public static <T> void setup_content_block_wb(
             final T context,
@@ -84,7 +85,15 @@ public class Fx9C {
             final NonLeakingWebView block,
             final String codeing
     ) throws Exception {
-        setup_content_block_wb(context, frame_holder, block, codeing, 1500, null, null);
+        setup_content_block_wb(
+                context,
+                frame_holder,
+                block,
+                codeing,
+                1500,
+                !In32.hasNoVideoElement(codeing),
+                null,
+                null);
     }
 
     public static <T> void setup_content_block_wb(
@@ -92,10 +101,29 @@ public class Fx9C {
             final RelativeLayout frame_holder,
             final NonLeakingWebView block,
             final String codeing,
+            final Runnable afterEverythingIsDone
+    ) throws Exception {
+        setup_content_block_wb(
+                context,
+                frame_holder,
+                block,
+                codeing,
+                1500,
+                !In32.hasNoVideoElement(codeing),
+                null,
+                afterEverythingIsDone);
+    }
+
+    public static <T> void setup_content_block_wb(
+            final T context,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final String codeing,
+            final boolean hasVideo,
             final HClient.Callback c,
             final Runnable cb
     ) throws Exception {
-        setup_content_block_wb(context, frame_holder, block, codeing, 1500, c, cb);
+        setup_content_block_wb(context, frame_holder, block, codeing, 1500, hasVideo, c, cb);
     }
 
     public static <T> void setup_web_video(
@@ -104,9 +132,9 @@ public class Fx9C {
             final NonLeakingWebView block,
             final CircleProgressBar circlebar,
             final String codeing,
-            final HClient.Callback c
+            final HClient.Callback url_check_callback
     ) throws Exception {
-        setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, c, null);
+        setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, url_check_callback, null);
     }
 
     public static <T> void setup_web_video(
@@ -115,10 +143,10 @@ public class Fx9C {
             final NonLeakingWebView block,
             final CircleProgressBar circlebar,
             final String codeing,
-            final HClient.Callback c,
-            final Runnable cb
+            final HClient.Callback url_check_callback,
+            final Runnable reveal_callback
     ) throws Exception {
-        setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, c, cb);
+        setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, url_check_callback, reveal_callback);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -128,6 +156,7 @@ public class Fx9C {
             final NonLeakingWebView block,
             final String codeing,
             final int reveal_time,
+            final boolean withVideoElements,
             final HClient.Callback c,
             final Runnable callback_webview
     ) throws Exception {
@@ -135,10 +164,12 @@ public class Fx9C {
         HClient I2 = HClient.with(context, block);
         if (c != null) I2.setController(c);
         block.setWebViewClient(I2);
-        block.setWebChromeClient(new ChromeLoader());
-        block.getSettings().setJavaScriptEnabled(true);
-        block.getSettings().setPluginState(WebSettings.PluginState.ON);
-        block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        if (withVideoElements) {
+            block.setWebChromeClient(new ChromeLoader());
+            block.getSettings().setJavaScriptEnabled(true);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        }
         block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
         block.setVisibility(View.VISIBLE);
         if (callback_webview == null)
@@ -155,23 +186,65 @@ public class Fx9C {
             final CircleProgressBar circlebar,
             final String codeing,
             final int reveal_time,
-            final HClient.Callback c,
+            final HClient.Callback on_url_passing,
             final Runnable callback_webview) throws Exception {
-        final String embeded_code = In32.cssByVideo(with(context)) + codeing;
+        final StringBuilder embeded_code = new StringBuilder();
+        embeded_code.append(In32.cssByVideo(with(context)));
+        embeded_code.append(codeing);
         mVideo.setWebChromeClient(new ChromeLoader(circlebar));
         mVideo.getSettings().setPluginState(WebSettings.PluginState.ON);
         mVideo.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         HClient I2 = HClient.with(context, mVideo);
-        if (c != null) I2.setController(c);
+        if (on_url_passing != null) I2.setController(on_url_passing);
         mVideo.setWebViewClient(I2);
         mVideo.getSettings().setJavaScriptEnabled(true);
-        mVideo.loadDataWithBaseURL("", embeded_code, "text/html; charset=utf-8", "UTF-8", null);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
         mVideo.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
         else
             startToReveal(frame_holder, reveal_time, callback_webview);
     }
+
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public static <T> void setup_web_video(
+            final T context,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView mVideo,
+            final CircleProgressBar circlebar,
+            final String codeing,
+            final int height,
+            final int reveal_time,
+            final HClient.Callback on_url_passing,
+            final Runnable callback_webview) throws Exception, UnsupportedEncodingException {
+
+
+        if (In32.hasNoVideoElement(codeing)) {
+            throw new Exception("there is no embeded code found from the code. please specify iframe in the code");
+        }
+        final StringBuilder embeded_code = new StringBuilder();
+        final String css = In32.cssRawName(with(context), R.raw.video_config_v2).replace("___HEIGHT___", height + "");
+        //  final String embeded_code = css + codeing;
+        embeded_code.append(css);
+        embeded_code.append(codeing);
+
+
+        mVideo.setWebChromeClient(new ChromeLoader(circlebar));
+        mVideo.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mVideo.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        HClient I2 = HClient.with(context, mVideo);
+        if (on_url_passing != null) I2.setController(on_url_passing);
+        mVideo.setWebViewClient(I2);
+        mVideo.getSettings().setJavaScriptEnabled(true);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
+        mVideo.setVisibility(View.VISIBLE);
+        if (callback_webview == null)
+            startToReveal(frame_holder, reveal_time);
+        else
+            startToReveal(frame_holder, reveal_time, callback_webview);
+    }
+
 
     /**
      * display facebook comment box

@@ -79,7 +79,7 @@ if you need to start a content display for html please also specify the xml as b
 ```
 
 
-HTML content display area
+### HTML content display area
 =======
 This is the fast simple implementation without any callbacks:
 
@@ -100,7 +100,7 @@ This is the fast simple implementation without any callbacks:
 
 ```
 
-This is the advanced implementation:
+### This is the advanced implementation:
 
 ```java
 
@@ -137,7 +137,13 @@ This is the advanced implementation:
 
 
 ```
-Video embeded content display area
+
+### After enhancement
+=======
+![](device-2015-09-02-114842.png)
+![](device-2015-09-02-114926.png)
+
+### Video embeded content display area
 =======
 ```java
  try {

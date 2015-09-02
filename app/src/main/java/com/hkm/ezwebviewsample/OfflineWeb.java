@@ -30,7 +30,7 @@ import java.util.Scanner;
 /**
  * Created by hesk on 6/8/15.
  */
-public class basicWVIFragment extends Fragment {
+public class OfflineWeb extends Fragment {
 
     private TextView line1, line2, line3, block_tv;
     private ProgressBar mprogressbar;
@@ -40,7 +40,7 @@ public class basicWVIFragment extends Fragment {
     private RelativeLayout sliderframe, video_frameview, content_article_frame;
     private ScrollView sv;
 
-    public basicWVIFragment() {
+    public OfflineWeb() {
     }
 
     @SuppressLint("ResourceAsColor")
@@ -80,29 +80,23 @@ public class basicWVIFragment extends Fragment {
     @Override
     public void onViewCreated(View v, Bundle b) {
         initBinding(v);
-        final String contentc = fromFileRaw(getActivity(), R.raw.sample_html);
+        final String contentc = fromFileRaw(getActivity(), R.raw.sample_no_video);
         try {
-            Fx9C.setup_content_block_wb(this, content_article_frame, block, contentc, new HClient.Callback() {
-                @Override
-                public boolean overridedefaultlogic(String url, Activity activity) {
-                    return In32.interceptURL_HB(url, activity);
-                }
-
-                @Override
-                public void retrieveCookie(String cookie_string) {
-
-                }
-            }, new Runnable() {
-                @Override
-                public void run() {
-                    ViewCompat.animate(mprogressbar).alpha(0f).withEndAction(new Runnable() {
+            Fx9C.setup_content_block_wb(this,
+                    content_article_frame,
+                    block,
+                    contentc,
+                    new Runnable() {
                         @Override
                         public void run() {
-                            mprogressbar.setVisibility(View.GONE);
+                            ViewCompat.animate(mprogressbar).alpha(0f).withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mprogressbar.setVisibility(View.GONE);
+                                }
+                            });
                         }
                     });
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }

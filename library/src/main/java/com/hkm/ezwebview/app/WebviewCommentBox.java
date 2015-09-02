@@ -26,7 +26,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 /**
  * Created by hesk on 23/7/15.
  */
-public class WebviewCommentBox extends Fragment {
+public class WebviewCommentBox extends BasicWebView {
     public static final String
             FRAGMENTTITLE_RESID = "title_resid",
             COMMENT_BOX_ID = "comment_box_identification",
@@ -34,50 +34,8 @@ public class WebviewCommentBox extends Fragment {
     public static final int FB_COMMENT = 9019;
     public static final int SINA_COMMENT = 9016;
 
-
-    private NonLeakingWebView block;
-    private CircleProgressBar betterCircleBar;
-    private RelativeLayout framer;
-
-    protected int commentbox_layout_id() {
-        return R.layout.webviewsimple;
-    }
-
-
-    @SuppressLint("ResourceAsColor")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    protected void initBinding(View v) {
-        betterCircleBar = (CircleProgressBar) v.findViewById(R.id.wv_simple_process);
-        block = (NonLeakingWebView) v.findViewById(R.id.wv_content_block);
-        framer = (RelativeLayout) v.findViewById(R.id.wv_simple_frame);
-    }
-
-    private void killWebView(NonLeakingWebView mWebView) {
-        //http://stackoverflow.com/questions/3815090/webview-and-html5-video
-        if (mWebView.getVisibility() == View.GONE) {
-            mWebView.loadUrl("about:blank");
-            mWebView.destroy();
-        }
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(commentbox_layout_id(), container, false);
-    }
-
-
-    protected void completeloading() {
-        ViewCompat.animate(betterCircleBar).alpha(0f).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                betterCircleBar.setVisibility(View.GONE);
-            }
-        });
-    }
-
     public void kill() {
-        killWebView(block);
+        killWebViewDefault();
     }
 
     protected void setup_commentbox(String id) {

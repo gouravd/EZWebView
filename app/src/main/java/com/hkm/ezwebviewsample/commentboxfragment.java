@@ -28,20 +28,14 @@ public class commentboxfragment extends WebviewCommentBox {
         return n;
     }
 
-    @Override
-    protected int commentbox_layout_id() {
-        return R.layout.webviewsimple;
-    }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         //fragment_comment_box_type = getArguments().getInt(WebviewCommentBox.REQUEST_TYPE);
         //  url_id = getArguments().getString(COMMENT_BOX_ID);
-        initBinding(view);
         //  setup_commentbox(getArguments().getString(COMMENT_BOX_ID));
         setup_commentbox("");
-
     }
 
     public void complete() {
