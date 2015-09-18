@@ -7,12 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
-import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
-
-import org.apache.http.cookie.Cookie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +23,7 @@ public abstract class HBCart extends PreventLeakClient<Activity> {
     private boolean loadingFinished = true;
     private final WebView mWebView;
     public static String TAG = "hbcartclient";
-    private List<Cookie> sessionCookie;
+
     private final ArrayList<String> allowing = new ArrayList<>();
     private final ArrayList<String> startfrom = new ArrayList<>();
 

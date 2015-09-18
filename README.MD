@@ -9,6 +9,7 @@ Feature list
 - [x] took care of life cycle issues
 - [x] fantasy animation reveal fade in
 
+Download for the [Sample APK][2]
 
 For initiating a webview, simply thing to do this to do it once for all.
 
@@ -198,3 +199,4 @@ License
     limitations under the License.
 
 [1]: https://github.com/jjhesk/EZWebView/tree/master/app/src/main/java/com/hkm/ezwebviewsample
+[2]: https://docs.google.com/uc?authuser=0&id=0B5hHvje_X5v3eFU0d2VIWjhuRjA&export=download
