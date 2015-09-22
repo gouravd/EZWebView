@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -17,6 +19,7 @@ import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.FBClient;
 import com.hkm.ezwebview.webviewclients.HClient;
+import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -297,6 +300,43 @@ public class Fx9C {
             } else
                 block.loadUrl(CommentBoxUrl.popbeeCommentBox(url_id));
             // Log.d("webview", ur);
+            block.setVisibility(View.VISIBLE);
+            Fx9C.startToReveal(frame_holder, reveal_time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String UserAgentTag(WebSettings ws, String tag) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(ws.getUserAgentString());
+        sb.append(" ");
+        sb.append(tag);
+        return sb.toString();
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public static <T extends PaymentClient> void setup_payment_gateway(
+            final T paymentGateWay,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final CircleProgressBar betterCircleBar,
+            final String web_shop_uri,
+            final String user_agent_tag,
+            final int reveal_time
+    ) {
+        try {
+            CookieManager.getInstance().setAcceptCookie(true);
+            CookieSyncManager.getInstance().sync();
+            block.getSettings().setUserAgentString(UserAgentTag(block.getSettings(), user_agent_tag));
+            block.setWebChromeClient(new ChromeLoader(betterCircleBar));
+            block.setWebViewClient(paymentGateWay);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+            block.getSettings().setJavaScriptEnabled(true);
+            block.getSettings().setAppCacheEnabled(true);
+            block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+            block.loadUrl(web_shop_uri);
             block.setVisibility(View.VISIBLE);
             Fx9C.startToReveal(frame_holder, reveal_time);
         } catch (Exception e) {

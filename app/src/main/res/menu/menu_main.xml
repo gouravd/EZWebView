@@ -34,5 +34,10 @@
         android:orderInCategory="100"
         android:title="Rich Text Content"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/shopppingcart"
+        android:orderInCategory="100"
+        android:title="Shopping Cart"
+        app:showAsAction="never" />
 
 </menu>

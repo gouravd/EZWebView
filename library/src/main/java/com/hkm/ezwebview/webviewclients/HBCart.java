@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
 import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
 
 import java.util.ArrayList;
@@ -77,7 +78,6 @@ public abstract class HBCart extends PreventLeakClient<Activity> {
         //SHOW LOADING IF IT ISNT ALREADY VISIBLE
         super.onPageStarted(view, url, favicon);
         //  CustomLogger.showLog("Beta", "onPage Started url is" + url);
-
     }
 
     @Override

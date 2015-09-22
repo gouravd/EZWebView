@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             FT = getFragmentManager().beginTransaction();
             FT.replace(R.id.fragment_fcfx, new commentboxfragment(), "EGG").addToBackStack(null).commit();
             return true;
+        } else if (id == R.id.shopppingcart) {
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new shoppingCart(), "EGG").addToBackStack(null).commit();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -30,4 +30,5 @@ public class CommentBoxUrl {
         //Log.d("webview", template);
         return template;
     }
+
 }
