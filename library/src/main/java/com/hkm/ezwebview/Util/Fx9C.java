@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -315,6 +316,54 @@ public class Fx9C {
         return sb.toString();
     }
 
+
+    public static void setup_content_block_wb(
+            final RelativeLayout frame_holder,
+            final WebView block,
+            final CircleProgressBar betterCircleBar,
+            final String html_content,
+            final int reveal_time
+    ) {
+        try {
+            block.setWebChromeClient(new ChromeLoader(betterCircleBar));
+            block.loadDataWithBaseURL("", html_content, "text/html; charset=utf-8", "UTF-8", null);
+            block.setVisibility(View.VISIBLE);
+            Fx9C.startToReveal(frame_holder, reveal_time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public static <T extends PaymentClient> void setup_payment_gateway(
+            final T paymentGateWay,
+            final RelativeLayout frame_holder,
+            final WebView block,
+            final CircleProgressBar betterCircleBar,
+            final String web_shop_uri,
+            final String user_agent_tag,
+            final int reveal_time
+    ) {
+        try {
+            CookieManager.getInstance().setAcceptCookie(true);
+            CookieSyncManager.getInstance().sync();
+            block.getSettings().setUserAgentString(UserAgentTag(block.getSettings(), user_agent_tag));
+            block.setWebChromeClient(new ChromeLoader(betterCircleBar));
+            block.setWebViewClient(paymentGateWay);
+            //  block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            // block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+            block.getSettings().setJavaScriptEnabled(true);
+            block.getSettings().setAppCacheEnabled(true);
+            block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+            block.loadUrl(web_shop_uri);
+            block.setVisibility(View.VISIBLE);
+            Fx9C.startToReveal(frame_holder, reveal_time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(
             final T paymentGateWay,
@@ -331,8 +380,8 @@ public class Fx9C {
             block.getSettings().setUserAgentString(UserAgentTag(block.getSettings(), user_agent_tag));
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
             block.setWebViewClient(paymentGateWay);
-            block.getSettings().setPluginState(WebSettings.PluginState.ON);
-            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+            //  block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            // block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
             block.getSettings().setJavaScriptEnabled(true);
             block.getSettings().setAppCacheEnabled(true);
             block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -365,12 +414,12 @@ public class Fx9C {
                 caseclient.setCallBack(callback);
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
             block.setWebViewClient(caseclient);
-            //  block.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            // block.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             // block.getSettings().setSupportMultipleWindows(true);
-            //block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            // block.getSettings().setPluginState(WebSettings.PluginState.ON);
             // block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
             block.getSettings().setJavaScriptEnabled(true);
-            //block.getSettings().setAppCacheEnabled(true);
+            // block.getSettings().setAppCacheEnabled(true);
             // block.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
             block.loadUrl(url_in_full);
             block.setVisibility(View.VISIBLE);

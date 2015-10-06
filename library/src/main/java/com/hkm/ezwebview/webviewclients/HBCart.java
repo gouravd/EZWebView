@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by hesk on 3/5/15.
  * So this Client will actually load the content directly from the URL
  */
-public abstract class HBCart extends PreventLeakClient<Activity> {
+public abstract class HBCart extends WebViewClient {
     private String loginCookie;
     private final Context mContext;
     private boolean redirect = false;
@@ -29,7 +30,7 @@ public abstract class HBCart extends PreventLeakClient<Activity> {
     private final ArrayList<String> startfrom = new ArrayList<>();
 
     public HBCart(final Activity context, final WebView fmWebView) {
-        super(context);
+        super();
         mContext = context;
         mWebView = fmWebView;
         WebSettings settings = fmWebView.getSettings();

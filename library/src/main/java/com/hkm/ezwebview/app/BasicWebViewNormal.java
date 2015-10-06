@@ -14,26 +14,25 @@ import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.R;
-import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 /**
- * Created by hesk on 2/9/15.
+ * Created by hesk on 23/9/15.
  */
-public abstract class BasicWebView extends Fragment {
-    protected NonLeakingWebView block;
+public abstract class BasicWebViewNormal extends Fragment {
+    protected WebView block;
     protected CircleProgressBar betterCircleBar;
     protected RelativeLayout framer;
 
     protected int LayoutID() {
-        return R.layout.webviewsimple;
+        return R.layout.simple_main_mv;
     }
 
     @SuppressLint("ResourceAsColor")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void initBinding(View v) {
         betterCircleBar = (CircleProgressBar) v.findViewById(R.id.wv_simple_process);
-        block = (NonLeakingWebView) v.findViewById(R.id.wv_content_block);
+        block = (WebView) v.findViewById(R.id.wv_content_block);
         framer = (RelativeLayout) v.findViewById(R.id.wv_simple_frame);
     }
 
@@ -90,7 +89,7 @@ public abstract class BasicWebView extends Fragment {
         // killWebViewLowMemory(null);
     }
 
-    protected void killWebViewLowMemory(NonLeakingWebView mWebView) {
+    protected void killWebViewLowMemory(WebView mWebView) {
         //http://stackoverflow.com/questions/3815090/webview-and-html5-video
         if (mWebView == null) {
             if (block.getVisibility() != View.GONE && block != null) {
@@ -105,7 +104,7 @@ public abstract class BasicWebView extends Fragment {
         }
     }
 
-    protected void killWebView(NonLeakingWebView mWebView) {
+    protected void killWebView(WebView mWebView) {
         //http://stackoverflow.com/questions/3815090/webview-and-html5-video
         if (mWebView == null) {
             if (block.getVisibility() != View.GONE && block != null) {
@@ -123,6 +122,5 @@ public abstract class BasicWebView extends Fragment {
     protected void killWebViewDefault() {
         killWebView(null);
     }
-
 
 }

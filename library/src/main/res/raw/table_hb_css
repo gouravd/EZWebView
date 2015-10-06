@@ -1,0 +1,2 @@
+table th, table td {border: inset 1px #DDD;background: #FAFAFA;text-align: center;font-size: 11px;padding: 5px 0;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-weight: normal;}table th {border-top: solid 1px #666;color: #000;}table{border-color: grey; border-collapse: collapse; border-spacing: 0; width: 100%; margin-bottom: 10px;
+}body{font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif, "Microsoft Yahei";}

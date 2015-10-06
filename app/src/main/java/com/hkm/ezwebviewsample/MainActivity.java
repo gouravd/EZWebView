@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FT = getFragmentManager().beginTransaction();
-        FT.add(R.id.fragment_fcfx, new OfflineFragments(), "offlinemainfragment")
+        FT.add(R.id.fragment_fcfx, new shoppingCart(), "offlinemainfragment")
                 .addToBackStack(null).commit();
     }
 
@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.shopppingcart) {
             FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new shoppingCart(), "EGG").addToBackStack(null).commit();
+            FT.replace(R.id.fragment_fcfx, new shoppingCart(), "EKG").addToBackStack(null).commit();
+            return true;
+        } else if (id == R.id.offlineSimpleView) {
+            FT = getFragmentManager().beginTransaction();
+            FT.replace(R.id.fragment_fcfx, new OfflinePlainWebView(), "VGG").addToBackStack(null).commit();
             return true;
         }
 

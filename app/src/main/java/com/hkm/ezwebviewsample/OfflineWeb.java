@@ -49,20 +49,18 @@ public class OfflineWeb extends Fragment {
         line1 = (TextView) v.findViewById(R.id.article_title);
         block = (NonLeakingWebView) v.findViewById(R.id.content_block);
         block_tv = (TextView) v.findViewById(R.id.content_block_text);
-
         //  pagerIndicator = (PagerIndicator) findViewById(R.id.custom_indicator);
         mprogressbar = (ProgressBar) v.findViewById(R.id.progressc);
         mVideo = (NonLeakingWebView) v.findViewById(R.id.videoplayer);
-
         video_frameview = (RelativeLayout) v.findViewById(R.id.framevideoplayer);
-
         content_article_frame = (RelativeLayout) v.findViewById(R.id.content_article_frame);
         betterCircleBar = (CircleProgressBar) v.findViewById(R.id.progressloadingbarpx);
         sv = (ScrollView) v.findViewById(R.id.scroller_container);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.webviewarticle, container, false);
     }

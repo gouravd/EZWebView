@@ -39,5 +39,10 @@
         android:orderInCategory="100"
         android:title="Shopping Cart"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/offlineSimpleView"
+        android:orderInCategory="100"
+        android:title="Simple View Cart"
+        app:showAsAction="never" />
 
 </menu>

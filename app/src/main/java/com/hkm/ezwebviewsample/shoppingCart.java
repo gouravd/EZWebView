@@ -10,21 +10,19 @@ import android.view.View;
 import android.webkit.WebView;
 
 import com.hkm.ezwebview.Util.Fx9C;
-import com.hkm.ezwebview.app.BasicWebView;
+import com.hkm.ezwebview.app.BasicWebViewNormal;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 
 /**
  * Created by hesk on 22/9/15.
  */
-public class shoppingCart extends BasicWebView {
+public class shoppingCart extends BasicWebViewNormal {
 
     public static final String
             FRAGMENTTITLE_RESID = "title_resid",
             CART_ID = "comment_box_identification";
     public static final int FB_COMMENT = 9019;
     public static final int SINA_COMMENT = 9016;
-
-
     private int fragment_comment_box_type;
 
     public static shoppingCart B(final Bundle b) {
