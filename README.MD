@@ -1,5 +1,6 @@
 Advanced Webview [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)
 =====
+Lastest Version v1.2.0
 
 Feature list
 - [x] no more memory leak issue in video iframe
