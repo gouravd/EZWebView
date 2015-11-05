@@ -52,6 +52,10 @@ public class shoppingCart extends BasicWebViewNormal {
         setup_payment_gateway(hbpaymentgateway.with(getActivity(), block), "https://store.hypebeast.com/cart");
     }
 
+    protected int LayoutID() {
+        return com.hkm.ezwebview.R.layout.fix_height_view;
+    }
+
     public void complete() {
         completeloading();
     }

@@ -10,7 +10,7 @@ import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
 
-public class MainActivity extends AppCompatActivity {
+public class _main_act extends AppCompatActivity {
     FragmentTransaction FT;
 
     @Override
