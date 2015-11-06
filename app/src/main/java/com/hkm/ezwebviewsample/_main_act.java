@@ -1,5 +1,6 @@
 package com.hkm.ezwebviewsample;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,9 +18,7 @@ public class _main_act extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FT = getFragmentManager().beginTransaction();
-        FT.add(R.id.fragment_fcfx, new shoppingCart(), "offlinemainfragment")
-                .addToBackStack(null).commit();
+        ofFragment(new shoppingCart());
     }
 
 
@@ -32,49 +31,40 @@ public class _main_act extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.libVideoFragment) {
             final String code = In32.fromFileRaw(this, R.raw.video_sample);
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, VideoFrameBox.with(code, 400), "EGG").addToBackStack(null).commit();
+            ofFragment(VideoFrameBox.with(code, 400));
             return true;
-        }
-        if (id == R.id.libRichTx) {
+        } else if (id == R.id.libRichTx) {
             final String code = In32.fromFileRaw(this, R.raw.sample_no_video);
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, RichTextBox.with(code), "EGG").addToBackStack(null).commit();
+            ofFragment(RichTextBox.with(code));
             return true;
         } else if (id == R.id.hybrid) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new hybridfragment(), "TA").addToBackStack(null).commit();
+            ofFragment(new hybridfragment());
             return true;
         } else if (id == R.id.textblock) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new OfflineWeb(), "FV").addToBackStack(null).commit();
+            ofFragment(new OfflineWeb());
             return true;
         } else if (id == R.id.video) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new VideoFra(), "EGC").addToBackStack(null).commit();
+            ofFragment(new VideoFra());
             return true;
         } else if (id == R.id.comment) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new commentboxfragment(), "EGG").addToBackStack(null).commit();
+            ofFragment(new commentboxfragment());
             return true;
         } else if (id == R.id.shopppingcart) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new shoppingCart(), "EKG").addToBackStack(null).commit();
+            ofFragment(new shoppingCart());
             return true;
         } else if (id == R.id.offlineSimpleView) {
-            FT = getFragmentManager().beginTransaction();
-            FT.replace(R.id.fragment_fcfx, new OfflinePlainWebView(), "VGG").addToBackStack(null).commit();
+            ofFragment(new OfflinePlainWebView());
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void ofFragment(Fragment claz) {
+        FT = getFragmentManager().beginTransaction();
+        FT.replace(R.id.fragment_fcfx, claz, "ClaTrans").addToBackStack(null).commit();
     }
 }

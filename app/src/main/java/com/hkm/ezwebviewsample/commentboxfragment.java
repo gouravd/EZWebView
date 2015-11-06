@@ -35,7 +35,7 @@ public class commentboxfragment extends WebviewCommentBox {
         //fragment_comment_box_type = getArguments().getInt(WebviewCommentBox.REQUEST_TYPE);
         //  url_id = getArguments().getString(COMMENT_BOX_ID);
         //  setup_commentbox(getArguments().getString(COMMENT_BOX_ID));
-        setup_commentbox("");
+        setup_commentbox("http://popbee.com/lifestyle/home-and-living/ikea-skogsta-collection/");
     }
 
     public void complete() {
