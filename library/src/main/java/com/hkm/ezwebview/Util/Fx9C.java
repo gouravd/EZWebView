@@ -3,9 +3,12 @@ package com.hkm.ezwebview.Util;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,8 @@ import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -245,8 +250,6 @@ public class Fx9C {
         //  final String embeded_code = css + codeing;
         embeded_code.append(css);
         embeded_code.append(codeing);
-
-
         mVideo.setWebChromeClient(new ChromeLoader(circlebar));
         mVideo.getSettings().setPluginState(WebSettings.PluginState.ON);
         mVideo.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
@@ -276,15 +279,12 @@ public class Fx9C {
      */
     @SuppressLint("SetJavaScriptEnabled")
     public static <T> void setup_commentbox(
-
             final T context,
             final RelativeLayout frame_holder,
             final NonLeakingWebView block,
             final CircleProgressBar betterCircleBar,
             final String url_id,
             final int reveal_time
-
-
     ) {
         try {
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
@@ -315,7 +315,6 @@ public class Fx9C {
         sb.append(tag);
         return sb.toString();
     }
-
 
     public static void setup_content_block_wb(
             final RelativeLayout frame_holder,
@@ -363,6 +362,41 @@ public class Fx9C {
         }
     }
 
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public static void setup_embedded_js_template(
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final CircleProgressBar betterCircleBar,
+            final String final_template_html,
+            final String query,
+            final int reveal_time,
+            final Context context
+    ) {
+        try {
+            final StringBuilder embeded_code = new StringBuilder();
+            //embeded_code.append(In32.cssByVideo(with(context)));
+            embeded_code.append(final_template_html);
+            block.getSettings().setJavaScriptEnabled(true);
+            // block.getSettings().setAppCacheEnabled(true);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                block.getSettings().setAllowUniversalAccessFromFileURLs(true);
+                block.getSettings().setAllowContentAccess(true);
+                block.getSettings().setAllowFileAccessFromFileURLs(true);
+            }
+            block.getSettings().setBlockNetworkLoads(false);
+            //block.enablecrossdomain_js();
+            block.setWebChromeClient(new ChromeLoader(betterCircleBar));
+            block.loadDataWithBaseURL("http://hypetrak.com/?" + query, final_template_html, "text/html; charset=utf-8", "UTF-8", "");
+            Log.d("dataLogWV", final_template_html);
+            block.setVisibility(View.VISIBLE);
+            startToReveal(frame_holder, reveal_time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(

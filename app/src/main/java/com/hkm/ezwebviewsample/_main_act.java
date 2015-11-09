@@ -58,6 +58,9 @@ public class _main_act extends AppCompatActivity {
         } else if (id == R.id.offlineSimpleView) {
             ofFragment(new OfflinePlainWebView());
             return true;
+        } else if (id == R.id.js_embeded) {
+            ofFragment(new comment_disqus_fragment());
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

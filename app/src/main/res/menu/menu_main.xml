@@ -44,5 +44,10 @@
         android:orderInCategory="100"
         android:title="Simple View Cart"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/js_embeded"
+        android:orderInCategory="100"
+        android:title="Simple JS embedded view"
+        app:showAsAction="never" />
 
 </menu>
