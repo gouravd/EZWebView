@@ -1,6 +1,6 @@
 Advanced Webview [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)
 =====
-Lastest Version v1.2.0
+Lastest Version v1.2.2
 
 Feature list
 - [x] no more memory leak issue in video iframe
@@ -9,6 +9,10 @@ Feature list
 - [x] easy web content display implementation
 - [x] took care of life cycle issues
 - [x] fantasy animation reveal fade in
+- [x] ```UriFactory``` set
+- [x] ```Fx9C``` set
+- [x] ```In32``` set
+- [x] ```CommentBoxUrl``` resolve facebook, weibo, popbee comment issues
 
 Download for the [Sample APK][2]
 
@@ -24,13 +28,13 @@ Remote Repo
 ```
 Dependency
 ```gradle
-    compile 'com.hkm.ezwebview:library:1.2.0'
+    compile 'com.hkm.ezwebview:library:1.2.2'
 ```
 
 
 Step 1.
 ======
-please locate in the xml for the video display 
+please locate in the xml for the video display
 ```xml
 
                 <RelativeLayout
@@ -105,8 +109,6 @@ This is the fast simple implementation without any callbacks:
 ### This is the advanced implementation:
 
 ```java
-
-
   @Override
     public void onViewCreated(View v, Bundle b) {
         initBinding(v);
@@ -135,8 +137,6 @@ This is the fast simple implementation without any callbacks:
         // if (bloadlistenr != null)
         //   bloadlistenr.onLoad();
     }
-
-
 
 ```
 
