@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
 import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.URLClient;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
@@ -140,7 +147,13 @@ public class In32 {
         return true;
     }
 
-
+    /**
+     * read data from the resource folder in the package
+     *
+     * @param ctx                    the context
+     * @param resource_raw_file_name the raw file name
+     * @return the string in return
+     */
     public static String fromFileRaw(Context ctx, final @RawRes int resource_raw_file_name) {
         StringBuilder sb = new StringBuilder();
         Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
@@ -149,4 +162,76 @@ public class In32 {
         }
         return sb.toString();
     }
+
+    public interface loadListener {
+        void readFile(String completed_text);
+    }
+
+    public class cssFileListenr implements loadListener {
+        @Override
+        public void readFile(String html_css) {
+
+        }
+    }
+
+    public static void loadFromLocalFileText(String folder_name, String file_name, final loadListener action) throws IOException {
+        String root = Environment.getExternalStorageDirectory().toString() + File.separator;
+        File myDir = new File(root + folder_name + File.separator + file_name);
+        loadFromLocalFileText(myDir, action);
+    }
+
+    public static void loadFromLocalFileText(String full_path_cachedFile, final loadListener action) throws IOException {
+        File myDir = new File(full_path_cachedFile);
+        loadFromLocalFileText(myDir, action);
+    }
+
+    public static void loadFromLocalFileText(File cachedFile, final loadListener read_done) throws IOException {
+        String UTF8 = "utf8";
+        int BUFFER_SIZE = 8192;
+
+        final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(cachedFile), UTF8), BUFFER_SIZE);
+
+
+        new AsyncTask<Void, Void, Void>() {
+            protected String temp_line;
+            protected StringBuilder sb = new StringBuilder();
+
+            protected String line() throws IOException {
+                temp_line = br.readLine();
+                return temp_line;
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    while (line() != null) {
+                        sb.append(temp_line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (read_done != null) {
+                    if (read_done instanceof cssFileListenr) {
+                        StringBuilder sbl = new StringBuilder();
+                        sbl.append("<style type=\"text/css\">");
+                        sbl.append(sb.toString());
+                        sbl.append("</style>");
+                        read_done.readFile(sbl.toString());
+                    } else {
+                        read_done.readFile(sb.toString());
+                    }
+                }
+            }
+        }.execute();
+
+
+    }
+
+
 }

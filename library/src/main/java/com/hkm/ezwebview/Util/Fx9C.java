@@ -168,6 +168,55 @@ public class Fx9C {
         setup_web_video(context, frame_holder, block, circlebar, codeing, 2000, url_check_callback, reveal_callback);
     }
 
+
+    public static <T> void setup_content_block_custom_css(
+            final T context,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final String css,
+            final String codeing,
+            final boolean hasVideo,
+            final HClient.Callback c,
+            final Runnable cb
+    ) throws Exception {
+        setup_content_block_custom_css(context, frame_holder, block, css, codeing, 1500, hasVideo, c, cb);
+    }
+
+
+    public static <T> void setup_content_block_custom_css(
+            final T context,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final String css,
+            final String codeing,
+            final int reveal_time,
+            final boolean withVideoElements,
+            final HClient.Callback urlByPass,
+            final Runnable callback_webview
+    ) throws Exception {
+        HClient I2 = HClient.with(context, block);
+        if (urlByPass != null) I2.setController(urlByPass);
+        block.setWebViewClient(I2);
+        if (withVideoElements) {
+            block.setWebChromeClient(new ChromeLoader());
+            block.getSettings().setJavaScriptEnabled(true);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        }
+        //block.setScrollContainer(false);
+        //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            block.loadDataWithBaseURL("", css + codeing, "text/html; charset=utf-8", "UTF-8", null);
+        } else {
+            block.loadDataWithBaseURL("", codeing, "text/html; charset=utf-8", "UTF-8", null);
+        }
+        block.setVisibility(View.VISIBLE);
+        if (callback_webview == null)
+            startToReveal(frame_holder, reveal_time);
+        else
+            startToReveal(frame_holder, reveal_time, callback_webview);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private static <T> void setup_content_block_wb(
             final T context,
@@ -191,7 +240,11 @@ public class Fx9C {
         }
         //block.setScrollContainer(false);
         //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
+        } else {
+            block.loadDataWithBaseURL("", codeing, "text/html; charset=utf-8", "UTF-8", null);
+        }
         block.setVisibility(View.VISIBLE);
 
         if (callback_webview == null)
