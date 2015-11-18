@@ -167,7 +167,10 @@ public class In32 {
         void readFile(String completed_text);
     }
 
-    public class cssFileListenr implements loadListener {
+    public static class cssFileListenr implements loadListener {
+        public cssFileListenr() {
+        }
+
         @Override
         public void readFile(String html_css) {
 
