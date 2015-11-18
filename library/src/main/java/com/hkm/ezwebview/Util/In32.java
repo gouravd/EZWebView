@@ -167,7 +167,7 @@ public class In32 {
         void readFile(String completed_text);
     }
 
-    public static class cssFileListenr implements loadListener {
+    public static class cssFileListenr implements In32.loadListener {
         public cssFileListenr() {
         }
 

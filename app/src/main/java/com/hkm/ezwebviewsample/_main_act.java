@@ -70,4 +70,13 @@ public class _main_act extends AppCompatActivity {
         FT = getFragmentManager().beginTransaction();
         FT.replace(R.id.fragment_fcfx, claz, "ClaTrans").addToBackStack(null).commit();
     }
+
+    protected void test_main() {
+        final In32.cssFileListenr f = new In32.cssFileListenr(){
+            @Override
+            public void readFile(String html_css) {
+
+            }
+        };
+    }
 }
