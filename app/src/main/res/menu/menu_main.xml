@@ -49,5 +49,10 @@
         android:orderInCategory="100"
         android:title="Simple JS embedded view"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/js_hack"
+        android:orderInCategory="100"
+        android:title="facebook display"
+        app:showAsAction="never" />
 
 </menu>

@@ -2,8 +2,8 @@ package com.hkm.ezwebviewsample;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,7 +18,7 @@ public class _main_act extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ofFragment(new shoppingCart());
+       // ofFragment(new shoppingCart());
     }
 
 
@@ -61,6 +61,9 @@ public class _main_act extends AppCompatActivity {
         } else if (id == R.id.js_embeded) {
             ofFragment(new comment_disqus_fragment());
             return true;
+        } else if (id == R.id.js_hack) {
+            ofFragment(new FbVideoFragment());
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -72,7 +75,7 @@ public class _main_act extends AppCompatActivity {
     }
 
     protected void test_main() {
-        final In32.cssFileListenr f = new In32.cssFileListenr(){
+        final In32.cssFileListenr f = new In32.cssFileListenr() {
             @Override
             public void readFile(String html_css) {
 

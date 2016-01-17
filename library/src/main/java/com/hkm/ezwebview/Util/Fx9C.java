@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -17,20 +16,19 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.FBClient;
 import com.hkm.ezwebview.webviewclients.HClient;
+import com.hkm.ezwebview.webviewclients.HackContentClient;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
+import com.hkm.ezwebview.webviewleakfix.PreventLeakClientChrome;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -415,6 +413,15 @@ public class Fx9C {
         }
     }
 
+    @SuppressLint("JavascriptInterface")
+    public static void setup_hack_view(final NonLeakingWebView block, HackContentClient client, String start_url) {
+        block.getSettings().setJavaScriptEnabled(true);
+        block.getSettings().setDomStorageEnabled(true);
+        block.addJavascriptInterface(client.getCB(), "Fc9sxHtmlViewer");
+        block.setWebChromeClient(new PreventLeakClientChrome());
+        block.setWebViewClient(client);
+        block.loadUrl(start_url);
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     public static void setup_embedded_js_template(
