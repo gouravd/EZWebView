@@ -1,15 +1,8 @@
 package com.hkm.ezwebviewsample;
 
 
-import android.util.Log;
-import android.view.View;
-
-import com.evgenii.jsevaluator.JsEvaluator;
-import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.HckBasic;
-import com.hkm.ezwebview.webviewclients.HackContentClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
-import com.hkm.ezwebviewsample.Dialog.ErrorMessage;
 
 
 /**
