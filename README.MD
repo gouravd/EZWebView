@@ -1,8 +1,9 @@
 Advanced Webview [![Build Status](https://travis-ci.org/jjhesk/EZWebView.svg?branch=master)](https://travis-ci.org/jjhesk/EZWebView)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)
 ======
-Lastest Version v1.2.6
+Lastest Version v1.3.1
 
 Feature list
+- [x] handler Google SSL alert #2
 - [x] no more memory leak issue in video iframe
 - [x] easy web page margin fixed
 - [x] easy web video implementation
@@ -28,7 +29,7 @@ Remote Repo
 ```
 Dependency
 ```gradle
-    compile 'com.hkm.ezwebview:library:1.2.6'
+    compile 'com.hkm.ezwebview:library:1.3.1'
 ```
 
 

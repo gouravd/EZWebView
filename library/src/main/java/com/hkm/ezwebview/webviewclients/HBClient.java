@@ -98,12 +98,13 @@ public abstract class HBClient extends PreventLeakClient<Activity> {
         CookieManager cookieManager = CookieManager.getInstance();
         loginCookie = cookieManager.getCookie(url);
     }
-
-
-    @Override
+    // TODO: Android does not like the SSL certificate we use, because it has '*' in
+    // it. Proceed with the errors.
+   /* @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         handler.proceed();
     }
+    */
 
     @Override
     public void onReceivedHttpAuthRequest(WebView view, final HttpAuthHandler handler, final String host, final String realm) {

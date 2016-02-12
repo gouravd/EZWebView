@@ -1,6 +1,9 @@
 package com.hkm.ezwebview.webviewleakfix;
 
 import android.app.Activity;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.lang.ref.WeakReference;
