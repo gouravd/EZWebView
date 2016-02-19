@@ -29,7 +29,7 @@ Remote Repo
 ```
 Dependency
 ```gradle
-    compile 'com.hkm.ezwebview:library:1.3.4'
+    compile 'com.hkm.ezwebview:ezwebviewv:1.3.4'
 ```
 
 
