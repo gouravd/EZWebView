@@ -24,8 +24,10 @@ import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
-import com.hkm.ezwebview.webviewleakfix.PreventLeakClientChrome;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -413,7 +415,6 @@ public class Fx9C {
     }
 
 
-
     @SuppressLint("SetJavaScriptEnabled")
     public static void setup_embedded_js_template(
             final RelativeLayout frame_holder,
@@ -448,6 +449,47 @@ public class Fx9C {
             e.printStackTrace();
         }
     }
+
+
+    public static void setup_template_body_overhead(
+            final Activity context,
+            final RelativeLayout frame_holder,
+            final NonLeakingWebView block,
+            final String template_body,
+            final String codeing,
+            final int reveal_time,
+            final boolean withVideoElements,
+            final HClient.Callback urlByPass,
+            final Runnable callback_webview
+    ) throws Exception {
+        HClient I2 = HClient.with(context, block);
+        //     ErrorEnabled I2 = new ErrorEnabled(context, block);
+        if (urlByPass != null) I2.setController(urlByPass);
+
+        block.setWebViewClient(I2);
+        if (withVideoElements) {
+            block.setWebChromeClient(new ChromeLoader());
+            block.getSettings().setJavaScriptEnabled(true);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON);
+            block.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        }
+
+        Document doc = Jsoup.parse(template_body);
+        doc.body().append(codeing);
+        //block.setScrollContainer(false);
+        //block.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        String printing = doc.outerHtml();
+        Log.d("html", printing);
+        block.loadDataWithBaseURL("", printing, "text/html; charset=utf-8", "UTF-8", null);
+
+        block.setVisibility(View.VISIBLE);
+
+        if (callback_webview == null)
+            Fx9C.startToReveal(frame_holder, reveal_time);
+        else
+            Fx9C.startToReveal(frame_holder, reveal_time, callback_webview);
+    }
+
 
     @SuppressLint("SetJavaScriptEnabled")
     public static <T extends PaymentClient> void setup_payment_gateway(

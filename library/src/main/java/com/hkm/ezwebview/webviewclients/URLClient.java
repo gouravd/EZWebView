@@ -3,7 +3,11 @@ package com.hkm.ezwebview.webviewclients;
 import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
 
@@ -55,5 +59,21 @@ public class URLClient extends HBCart {
     protected boolean interceptUrl(WebView view, String url) {
         if (mxb != null) return mxb.interceptUrl(url, view);
         return false;
+    }
+
+    @Override
+    public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+        super.onReceivedHttpError(view, request, errorResponse);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Log.i("htmlError", request.toString() + " \nResponse: " + errorResponse.getReasonPhrase());
+        }
+    }
+
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        Log.i("htmlError", "code: " + errorCode + " \nReason: " + description + "\n url: " + failingUrl);
+
     }
 }
