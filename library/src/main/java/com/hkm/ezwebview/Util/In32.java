@@ -13,6 +13,9 @@ import android.util.Log;
 import com.hkm.ezwebview.R;
 import com.hkm.ezwebview.webviewclients.URLClient;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -236,5 +239,11 @@ public class In32 {
 
     }
 
+    public static String mergeTemplateHtml(String template_html, String content) {
+        Document doc = Jsoup.parse(template_html);
+        doc.body().append(content);
+        String printing = doc.outerHtml();
+        return printing;
+    }
 
 }
