@@ -9,6 +9,7 @@
 Icon[
 ]
 
-.idea/misc.xml
-.idea/dictionaries/hesk.xml
-.idea/*
+**/*.iml
+*.iml
+/*.iml
+/.idea/
