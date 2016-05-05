@@ -146,4 +146,23 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
         void onScroll(int l, int t);
     }
 
+    /**
+     * Pauses any extra processing associated with this WebView and its
+     * associated DOM, plugins, JavaScript etc. For example, if this WebView is
+     * taken offscreen, this could be called to reduce unnecessary CPU or
+     * network traffic. When this WebView is again "active", call onResume().
+     * Note that this differs from pauseTimers(), which affects all WebViews.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    /**
+     * Resumes a WebView after a previous call to onPause().
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

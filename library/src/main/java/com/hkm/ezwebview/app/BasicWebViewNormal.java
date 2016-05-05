@@ -2,6 +2,7 @@ package com.hkm.ezwebview.app;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -121,6 +122,33 @@ public abstract class BasicWebViewNormal extends Fragment {
 
     protected void killWebViewDefault() {
         killWebView(null);
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (block != null) {
+            block.onPause();
+        }
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (block != null) {
+            block.onResume();
+        }
     }
 
 }

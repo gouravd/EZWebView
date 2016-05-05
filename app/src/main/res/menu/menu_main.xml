@@ -19,7 +19,7 @@
         android:title="FB comment"
         app:showAsAction="never" />
     <item
-        android:id="@+id/video"
+        android:id="@+id/video_classic"
         android:orderInCategory="100"
         android:title="video block classic"
         app:showAsAction="never" />

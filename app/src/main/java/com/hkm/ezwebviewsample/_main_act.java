@@ -46,7 +46,8 @@ public class _main_act extends AppCompatActivity {
         } else if (id == R.id.textblock) {
             ofFragment(new OfflineWeb());
             return true;
-        } else if (id == R.id.video) {
+        } else if (id == R.id.video_classic) {
+            //video block classic
             ofFragment(new VideoFra());
             return true;
         } else if (id == R.id.comment) {

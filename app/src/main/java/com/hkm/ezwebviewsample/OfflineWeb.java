@@ -101,4 +101,32 @@ public class OfflineWeb extends Fragment {
         // if (bloadlistenr != null)
         //   bloadlistenr.onLoad();
     }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (block != null) {
+            block.onPause();
+        }
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (block != null) {
+            block.onResume();
+        }
+    }
+
 }
