@@ -242,7 +242,7 @@ public class Fx9C {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             block.loadDataWithBaseURL("", content_code_final, "text/html; charset=utf-8", "UTF-8", null);
         } else {
-            block.loadDataWithBaseURL("", codeing, "text/html; charset=utf-8", "UTF-8", null);
+            block.loadDataWithBaseURL("", codeing, "text/html", "UTF-8", null);
         }
         block.setVisibility(View.VISIBLE);
 
@@ -272,7 +272,7 @@ public class Fx9C {
         if (on_url_passing != null) I2.setController(on_url_passing);
         mVideo.setWebViewClient(I2);
         mVideo.getSettings().setJavaScriptEnabled(true);
-        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html", "UTF-8", null);
         mVideo.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
@@ -309,7 +309,7 @@ public class Fx9C {
         if (on_url_passing != null) I2.setController(on_url_passing);
         mVideo.setWebViewClient(I2);
         mVideo.getSettings().setJavaScriptEnabled(true);
-        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html; charset=utf-8", "UTF-8", null);
+        mVideo.loadDataWithBaseURL("", embeded_code.toString(), "text/html", "UTF-8", null);
         mVideo.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             startToReveal(frame_holder, reveal_time);
@@ -377,7 +377,7 @@ public class Fx9C {
     ) {
         try {
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
-            block.loadDataWithBaseURL("", html_content, "text/html; charset=utf-8", "UTF-8", null);
+            block.loadDataWithBaseURL("", html_content, "text/html", "UTF-8", null);
             block.setVisibility(View.VISIBLE);
             Fx9C.startToReveal(frame_holder, reveal_time);
         } catch (Exception e) {
@@ -441,7 +441,7 @@ public class Fx9C {
             block.getSettings().setBlockNetworkLoads(false);
             //block.enablecrossdomain_js();
             block.setWebChromeClient(new ChromeLoader(betterCircleBar));
-            block.loadDataWithBaseURL("http://hypetrak.com/?" + query, final_template_html, "text/html; charset=utf-8", "UTF-8", "");
+            block.loadDataWithBaseURL("http://hypetrak.com/?" + query, final_template_html, "text/html", "UTF-8", "");
             Log.d("dataLogWV", final_template_html);
             block.setVisibility(View.VISIBLE);
             startToReveal(frame_holder, reveal_time);
@@ -469,7 +469,7 @@ public class Fx9C {
             block.setWebChromeClient(new ChromeLoader());
             block.getSettings().setJavaScriptEnabled(true);
         }
-        block.loadDataWithBaseURL("", In32.mergeTemplateHtml(template_body, codeing), "text/html; charset=utf-8", "UTF-8", null);
+        block.loadDataWithBaseURL("", In32.mergeTemplateHtml(template_body, codeing), "text/html", "UTF-8", null);
         block.setVisibility(View.VISIBLE);
         if (callback_webview == null)
             Fx9C.startToReveal(frame_holder, reveal_time);
@@ -553,7 +553,7 @@ public class Fx9C {
 
     public static void clearVideo(RelativeLayout frame, NonLeakingWebView mv) {
         if (hideSlider(frame)) {
-            mv.loadDataWithBaseURL("", "", "text/html; charset=utf-8", "UTF-8", null);
+            mv.loadDataWithBaseURL("", "", "text/html", "UTF-8", null);
             mv.setVisibility(View.INVISIBLE);
         }
     }
