@@ -93,24 +93,6 @@ public class In32 {
         return sb.toString();
     }
 
-    private static String[] getSegments(final Uri base) {
-        String[] segments = base.getPath().split("/");
-        String token = base.getLastPathSegment();
-        return segments;
-    }
-
-
-    /**
-     * start the application in browser to see the url or choose by other application to view this uri
-     *
-     * @param url      in full path for url
-     * @param activity the activity
-     */
-    public static void openOtherUri(final String url, final Activity activity) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        activity.startActivity(intent);
-    }
-
     public static boolean interceptURL_cart(final String url, List<String> allowing, List<String> startfrom, URLClient.cb cb) {
         for (final String urli : allowing) {
             if (Uri.parse(url).getHost().endsWith(urli)) {
@@ -127,27 +109,16 @@ public class In32 {
     }
 
     public static boolean interceptURL_HB(String url, Activity activity) {
-        if (Uri.parse(url).getHost().endsWith("store.hypebeast.com")) {
-            String[] list = getSegments(Uri.parse(url));
-            boolean brand = list[1].equalsIgnoreCase("brands");
-            String brandname = list[2];
-            startNewActivity("com.hypebeast.store", url, brandname, activity);
-            return true;
-        } else if (Uri.parse(url).getHost().endsWith("hypebeast.com")) {
-            String[] list = getSegments(Uri.parse(url));
-            String g = list[1];
-            if (g.equalsIgnoreCase("tags")) {
+        String HOST_TO_INTERCEPT = "amazon.com";
+        String hostname = Uri.parse(url).getHost();
 
-                return true;
-            } else {
-                //  PBUtil.startNewArticle(url, activity);
-                return true;
-            }
-        } else if (Uri.parse(url).getHost().length() == 0) {
+        if (hostname.endsWith(HOST_TO_INTERCEPT)) {
+            String[] chunks = Uri.parse(url).getPath().split("/");
+            // launch the specified app with the matching chunk as parameter
             return true;
         }
-        openOtherUri(url, activity);
-        return true;
+
+        return false;
     }
 
     /**

@@ -1,19 +1,18 @@
 package com.hkm.ezwebview.webviewclients;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import com.hkm.ezwebview.webviewleakfix.PreventLeakClientChrome;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 /**
  * Created by hesk on 3/13/15.
  */
-public class ChromeLoader extends PreventLeakClientChrome {
+public class ChromeLoader extends WebChromeClient {
     private CircleProgressBar mCircleProgressBar;
     private boolean control_webview_show_hide_onload = false;
     private Activity mActivity;
@@ -23,6 +22,11 @@ public class ChromeLoader extends PreventLeakClientChrome {
     private String loadingText;
     private CharSequence barTitle;
     private int time_of_fade = 0;
+    protected OnCloseWindowCallback onCloseWindowCallback = null;
+
+    public interface OnCloseWindowCallback {
+        public void onCloseWindow(WebView window);
+    }
 
     public ChromeLoader(CircleProgressBar circlebar, int time_fade) {
         this(circlebar);
@@ -57,10 +61,23 @@ public class ChromeLoader extends PreventLeakClientChrome {
         return this;
     }
 
-    public ChromeLoader setLoadingText(String b) {
-        loadingText = b;
+    public ChromeLoader setLoadingText(String loadingText) {
+        this.loadingText = loadingText;
         withLoadingText = true;
         return this;
+    }
+
+    public ChromeLoader setOnCloseWindowCallback(OnCloseWindowCallback onCloseWindowCallback) {
+        this.onCloseWindowCallback = onCloseWindowCallback;
+        return this;
+    }
+
+    @Override
+    public void onCloseWindow(WebView window) {
+        super.onCloseWindow(window);
+        if (onCloseWindowCallback != null) {
+            onCloseWindowCallback.onCloseWindow(window);
+        }
     }
 
     @Override
@@ -91,11 +108,15 @@ public class ChromeLoader extends PreventLeakClientChrome {
 
         } else if (mActivity != null) {
             //mActivity.setProgressBarIndeterminateVisibility(true);
-            cpb.setVisibility(View.VISIBLE);
+            if (cpb != null) {
+                cpb.setVisibility(View.VISIBLE);
+            }
             if (withLoadingText) {
                 mActivity.setTitle(loadingText);
             }
-            cpb.setProgress(progress);
+            if (cpb != null) {
+                cpb.setProgress(progress);
+            }
             if (control_webview_show_hide_onload && view.getVisibility() == View.VISIBLE)
                 view.setVisibility(View.GONE);
             if (progress == 100) {
@@ -104,7 +125,9 @@ public class ChromeLoader extends PreventLeakClientChrome {
                         mActivity.setTitle("no name");
                     else mActivity.setTitle(barTitle);
                 }
-                cpb.setVisibility(View.GONE);
+                if (cpb != null) {
+                    cpb.setVisibility(View.GONE);
+                }
                 if (control_webview_show_hide_onload && view.getVisibility() == View.GONE)
                     view.setVisibility(View.VISIBLE);
             }

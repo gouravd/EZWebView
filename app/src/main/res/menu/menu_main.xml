@@ -4,6 +4,11 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/card_io_demo"
+        android:orderInCategory="100"
+        android:title="@string/fragment_card_io_demo"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/hybrid"
         android:orderInCategory="100"
         android:title="hybrid view"
@@ -14,16 +19,10 @@
         android:title="offline text"
         app:showAsAction="never" />
     <item
-        android:id="@+id/comment"
-        android:orderInCategory="100"
-        android:title="FB comment"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/video_classic"
         android:orderInCategory="100"
         android:title="video block classic"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/libVideoFragment"
         android:orderInCategory="100"
@@ -43,16 +42,6 @@
         android:id="@+id/offlineSimpleView"
         android:orderInCategory="100"
         android:title="Simple View Cart"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/js_embeded"
-        android:orderInCategory="100"
-        android:title="Simple JS embedded view"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/js_hack"
-        android:orderInCategory="100"
-        android:title="facebook display"
         app:showAsAction="never" />
 
 </menu>

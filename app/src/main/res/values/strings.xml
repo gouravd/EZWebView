@@ -4,4 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="exit_alert">exit the app</string>
 
+    <!-- view labels -->
+    <string name="fragment_card_io_demo">card.io Demo</string>
+
 </resources>

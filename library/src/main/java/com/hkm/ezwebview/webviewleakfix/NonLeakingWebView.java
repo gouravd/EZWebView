@@ -18,17 +18,9 @@ import java.lang.reflect.Method;
  */
 
 public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
+    private static final String TAG = NonLeakingWebView.class.getSimpleName();
     private static Field sConfigCallback;
     private OnScrollChangedCallback mOnScrollChangedCallback;
-
-    static {
-        try {
-            sConfigCallback = Class.forName("android.webkit.BrowserFrame").getDeclaredField("sConfigCallback");
-            sConfigCallback.setAccessible(true);
-        } catch (Exception e) {
-            // ignored
-        }
-    }
 
     public void setWebViewClient(Class<T> client, AppCompatActivity context) {
         try {
@@ -37,13 +29,13 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
             T clientInstance = (T) client.getDeclaredConstructor(cArg).newInstance((AppCompatActivity) context);
             super.setWebViewClient(clientInstance);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to set webView client due to InstantiationException", e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to set webView client due to IllegalAccessException", e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to set webView client due to NoSuchMethodException; wrong api support level?", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to set webView client due to InvocationTargetException", e);
         }
     }
 

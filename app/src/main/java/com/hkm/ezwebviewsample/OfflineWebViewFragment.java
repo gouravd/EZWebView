@@ -30,32 +30,21 @@ import java.util.Scanner;
 /**
  * Created by hesk on 6/8/15.
  */
-public class OfflineWeb extends Fragment {
+public class OfflineWebViewFragment extends Fragment {
 
-    private TextView line1, line2, line3, block_tv;
     private ProgressBar mprogressbar;
-    private CircleProgressBar betterCircleBar;
-    private ImageView single_static_feature_image_holder;
-    private NonLeakingWebView mVideo, block;
-    private RelativeLayout sliderframe, video_frameview, content_article_frame;
-    private ScrollView sv;
+    private NonLeakingWebView block;
+    private RelativeLayout content_article_frame;
 
-    public OfflineWeb() {
+    public OfflineWebViewFragment() {
     }
 
     @SuppressLint("ResourceAsColor")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void initBinding(View v) {
-        line1 = (TextView) v.findViewById(R.id.article_title);
         block = (NonLeakingWebView) v.findViewById(R.id.content_block);
-        block_tv = (TextView) v.findViewById(R.id.content_block_text);
-        //  pagerIndicator = (PagerIndicator) findViewById(R.id.custom_indicator);
         mprogressbar = (ProgressBar) v.findViewById(R.id.progressc);
-        mVideo = (NonLeakingWebView) v.findViewById(R.id.videoplayer);
-        video_frameview = (RelativeLayout) v.findViewById(R.id.framevideoplayer);
         content_article_frame = (RelativeLayout) v.findViewById(R.id.content_article_frame);
-        betterCircleBar = (CircleProgressBar) v.findViewById(R.id.progressloadingbarpx);
-        sv = (ScrollView) v.findViewById(R.id.scroller_container);
     }
 
     @Override
@@ -98,15 +87,8 @@ public class OfflineWeb extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // if (bloadlistenr != null)
-        //   bloadlistenr.onLoad();
     }
 
-    /**
-     * Called when the Fragment is no longer resumed.  This is generally
-     * tied to {@link Activity#onPause() Activity.onPause} of the containing
-     * Activity's lifecycle.
-     */
     @Override
     public void onPause() {
         super.onPause();
@@ -115,12 +97,6 @@ public class OfflineWeb extends Fragment {
         }
     }
 
-    /**
-     * Called when the fragment is visible to the user and actively running.
-     * This is generally
-     * tied to {@link Activity#onResume() Activity.onResume} of the containing
-     * Activity's lifecycle.
-     */
     @Override
     public void onResume() {
         super.onResume();

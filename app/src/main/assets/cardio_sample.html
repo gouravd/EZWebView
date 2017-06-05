@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>card.io Demo</title>
+    <style type="text/css">
+        body {
+            font-family: helvetica;
+            font-size: 12pt;
+        }
+        input[type="number"], input[type="text"], button {
+            font-size: 12pt;
+        }
+        #cc-number {
+            text-align: center;
+            width: 140pt;
+        }
+        #cc-expiry-date {
+            text-align: center;
+            width: 58pt;
+        }
+    </style>
+    <script type="text/javascript">
+        /* CardIoInterface is a self-defined javascript interface
+         * in Android Activity / Fragment
+         */
+        function showCardIoView() {
+            if (typeof(CardIoInterface) == 'undefined') {
+                console.error('CardIoInterface is not defined');
+                return;
+            }
+            CardIoInterface.showCardIoView();
+        }
+
+        function updateCardNumber(cardNumber, expiryDate) {
+            document.getElementById('cc-number').value = cardNumber;
+            document.getElementById('cc-expiry-date').value = expiryDate
+        }
+    </script>
+</head>
+<body>
+<div>
+    <div>
+        <input id="cc-number" type="number" placeholder="16-digit Credit Card" maxlength="16">
+        <input id="cc-expiry-date" type="text" placeholder="MM/YYYY" maxlength="7">
+    </div>
+    <div>
+        <button id="card-io-button" onclick="showCardIoView();">Scan with card.io</button>
+    </div>
+</div>
+</body>
+</html>

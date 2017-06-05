@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
-import com.hkm.ezwebview.app.WebviewCommentBox;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -34,9 +33,7 @@ public class hybridfragment extends Fragment implements URLClient.cb {
     private RelativeLayout framer;
 
     private List<String> getInternal() {
-        final List<String> h = new ArrayList<>();
-
-        return h;
+        return new ArrayList<>();
     }
 
     private List<String> getAllow() {

@@ -29,7 +29,7 @@ import java.util.Scanner;
 /**
  * Created by hesk on 1/9/15.
  */
-public class VideoFra extends Fragment {
+public class VideoWebViewFragment extends Fragment {
 
     private NonLeakingWebView block;
     private CircleProgressBar betterCircleBar;
@@ -126,14 +126,14 @@ public class VideoFra extends Fragment {
      * This is the example code
      */
     private void setup_video() {
-        final String contentc = In32.fromFileRaw(getActivity(), R.raw.video_sample);
+        final String embeddedWebContent = In32.fromFileRaw(getActivity(), R.raw.video_sample);
         try {
             Fx9C.setup_web_video(
                     this,
                     framer,
                     block,
                     betterCircleBar,
-                    contentc,
+                    embeddedWebContent,
                     new HClient.Callback() {
                         @Override
                         public void retrieveCookie(String cookie_string) {
