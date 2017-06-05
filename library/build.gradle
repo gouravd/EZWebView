@@ -14,13 +14,13 @@ android {
     }
 
     buildTypes {
-        libraryVariants.all { variant ->
+       /* libraryVariants.all { variant ->
             variant.outputs.each { output ->
                 def filename = output.outputFile.name
                 filename = filename.replace('library-', libPrefix).replace('.aar', '-' + defaultConfig.versionName + '.aar')
                 output.outputFile = new File(output.outputFile.parent, filename)
             }
-        }
+        }*/
 
         release {
             minifyEnabled true
@@ -36,7 +36,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile libden.appCompat
-    provided libden.jsoup
+    compile libden.jsoup
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
 }
 

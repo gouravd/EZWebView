@@ -582,7 +582,9 @@ public class Fx9C {
     /**
      * Allow automatic media playback without user gesture
      * required for SoundCloud to work properly
-     * @param allow
+     *
+     * @param allow is allow?
+     * @return self main
      */
     public Fx9C setAllowAutomaticMediaPlayback(boolean allow) {
         allowAutomaticMediaPlayback = allow;
@@ -623,7 +625,7 @@ public class Fx9C {
         this.isJavaScriptEnabled = isJavaScriptEnabled;
         return this;
     }
-    
+
     public Fx9C setOnCloseWindowCallback(ChromeLoader.OnCloseWindowCallback onCloseWindowCallback) {
         this.onCloseWindowCallback = onCloseWindowCallback;
         return this;
@@ -674,8 +676,8 @@ public class Fx9C {
     }
 
     /**
-     * @param callback
-     * @return
+     * @param callback client callback
+     * @return self main module
      * @throws Exception if context is not defined or not of fragment / AppCompatActivity
      */
     public Fx9C setDefaultWebViewClientWithCallback(HClient.Callback callback) throws Exception {
@@ -719,7 +721,7 @@ public class Fx9C {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG||isChromeDebugEnabled);
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG || isChromeDebugEnabled);
         }
 
         if (webViewClient != null) {
