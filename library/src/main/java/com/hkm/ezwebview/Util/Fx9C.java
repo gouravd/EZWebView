@@ -592,6 +592,7 @@ public class Fx9C {
         return this;
     }
 
+
     public Fx9C setAllowHTTPSMixedContent(boolean allow) {
         allowHTTPSMixedContent = allow;
         return this;
@@ -716,7 +717,31 @@ public class Fx9C {
         webView.setWebChromeClient(webChromeClient);
     }
 
-    private void updateWebViewSettings() {
+    /**
+     * using webview content hack approach to build content base url post redirect
+     *
+     * @param webView  object
+     * @param url      url endpoint
+     * @param postData map in data
+     */
+    private static void webview_ClientPost(WebView webView, String url, Collection<Map.Entry<String, String>> postData) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html><head></head>");
+        sb.append("<body onload='form1.submit()'>");
+        sb.append(String.format("<form id='form1' action='%s' method='%s'>", url, "post"));
+        for (Map.Entry<String, String> item : postData) {
+            sb.append(String.format("<input name='%s' type='hidden' value='%s' />", item.getKey(), item.getValue()));
+        }
+        sb.append("</form></body></html>");
+        webView.loadData(sb.toString(), "text/html", "UTF-8");
+    }
+
+    /**
+     * the preconfiguration of the website settings
+     *
+     * @throws IllegalArgumentException otherwise
+     */
+    private void pre_config() throws IllegalArgumentException {
         if (webView == null) {
             throw new IllegalArgumentException("webview is not initialized before loading web content");
         }
@@ -741,6 +766,9 @@ public class Fx9C {
         }
 
         settings.setJavaScriptEnabled(isJavaScriptEnabled);
+
+        settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
         }
@@ -748,26 +776,32 @@ public class Fx9C {
         updateWebViewCacheMode();
     }
 
-    public void loadUrl(String url) {
-        updateWebViewSettings();
+    private void post_config() {
+        webView.setVisibility(View.VISIBLE);
+        if (onCompleteCallback == null) {
+            Fx9C.startToReveal(webViewHolder, animateDuration);
+        } else {
+            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
+        }
+    }
+
+    public void loadUrl(String url) throws Exception {
+        pre_config();
         webView.loadUrl(url);
-        webView.setVisibility(View.VISIBLE);
-        if (onCompleteCallback == null) {
-            Fx9C.startToReveal(webViewHolder, animateDuration);
-        } else {
-            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
-        }
+        post_config();
     }
 
-    public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
-        updateWebViewSettings();
+    /**
+     * with additional header support
+     *
+     * @param url                   endpoint
+     * @param additionalHttpHeaders headers
+     * @throws Exception otherwise
+     */
+    public void loadUrl(String url, Map<String, String> additionalHttpHeaders) throws Exception {
+        pre_config();
         webView.loadUrl(url, additionalHttpHeaders);
-        webView.setVisibility(View.VISIBLE);
-        if (onCompleteCallback == null) {
-            Fx9C.startToReveal(webViewHolder, animateDuration);
-        } else {
-            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
-        }
+        post_config();
     }
 
     /**
@@ -775,10 +809,12 @@ public class Fx9C {
      *
      * @param url       uri
      * @param mapParams params
+     * @throws Exception otherwise
      */
-
-    public void loadUrlByPost(String url, Map<String, String> mapParams) {
+    public void loadUrlByPost(String url, Map<String, String> mapParams) throws Exception {
+        pre_config();
         webView.postUrl(url, UriFactory.urlEncodeUTF8(mapParams).getBytes());
+        post_config();
     }
 
     /**
@@ -786,32 +822,25 @@ public class Fx9C {
      *
      * @param url       uri
      * @param mapParams params
+     * @throws Exception otherwise
      */
-    public void loadUrlByPostAlternative(String url, Map<String, String> mapParams) {
+    public void loadUrlByPostAlternative(String url, Map<String, String> mapParams) throws Exception {
+        pre_config();
         Collection<Map.Entry<String, String>> postData = mapParams.entrySet();
         webview_ClientPost(webView, url, postData);
+        post_config();
     }
 
-    private static void webview_ClientPost(WebView webView, String url, Collection<Map.Entry<String, String>> postData) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<html><head></head>");
-        sb.append("<body onload='form1.submit()'>");
-        sb.append(String.format("<form id='form1' action='%s' method='%s'>", url, "post"));
-        for (Map.Entry<String, String> item : postData) {
-            sb.append(String.format("<input name='%s' type='hidden' value='%s' />", item.getKey(), item.getValue()));
-        }
-        sb.append("</form></body></html>");
-        webView.loadData(sb.toString(), "text/html", "UTF-8");
-    }
 
-    public void loadWebContent(WebContent webContent) {
-        updateWebViewSettings();
+    /**
+     * alternative use of web content config to get url
+     *
+     * @param webContent the object
+     * @throws Exception otherwise
+     */
+    public void loadWebContent(WebContent webContent) throws Exception {
+        pre_config();
         webView.loadDataWithBaseURL(webContent.getBaseUrl(), webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, webContent.getHistoryUrl());
-        webView.setVisibility(View.VISIBLE);
-        if (onCompleteCallback == null) {
-            Fx9C.startToReveal(webViewHolder, animateDuration);
-        } else {
-            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
-        }
+        post_config();
     }
 }

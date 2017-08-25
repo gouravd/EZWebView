@@ -1,6 +1,6 @@
 Advanced Webview [![Build Status](https://travis-ci.org/jjhesk/EZWebView.svg?branch=master)](https://travis-ci.org/jjhesk/EZWebView)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Advanced%20Webview-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2390)[ ![Download](https://api.bintray.com/packages/jjhesk/maven/ezwebviewv/images/download.svg) ](https://bintray.com/jjhesk/maven/ezwebviewv/_latestVersion)
 ======
-Latest Version v1.4.5
+Latest Version v1.4.8
 =======
 
 
@@ -17,6 +17,8 @@ Feature list
 - [x] ```In32``` set
 - [x] ```CommentBoxUrl``` resolve facebook, weibo, popbee comment issues
 - [x] Support Post Method
+- [x] support sound cloud
+- [x] extra js script runtime
 
 Download for the [Sample APK][2]
 
