@@ -77,8 +77,9 @@ public class VideoEnabledWebChromeClient extends WebChromeClient
     /**
      * Builds a video enabled WebChromeClient.
      *
-     * @param webViewHolder  A View in the activity's layout that contains every other view that should be hidden when the video goes full-screen.
-     * @param fullScreenView A ViewGroup in the activity's layout that will display the video. Typically you would like this to fill the whole layout.
+     * @param webViewHolder      A View in the activity's layout that contains every other view that should be hidden when the video goes full-screen.
+     * @param fullScreenView     A ViewGroup in the activity's layout that will display the video. Typically you would like this to fill the whole layout.
+     * @param mCircleProgressBar circle component
      */
     @SuppressWarnings("unused")
     public VideoEnabledWebChromeClient(View webViewHolder, ViewGroup fullScreenView, CircleProgressBar mCircleProgressBar) {

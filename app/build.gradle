@@ -10,8 +10,8 @@ android {
         applicationId "com.hkm.ezwebviewsample"
         minSdkVersion "${ANDROID_BUILD_MIN_SDK_VERSION}"
         targetSdkVersion "${ANDROID_BUILD_TARGET_SDK_VERSION}"
-        versionCode 6
-        versionName "1.2"
+        versionCode 11
+        versionName "1.5"
     }
     buildTypes {
         release {
@@ -23,11 +23,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile libden.appCompat
     compile 'org.apache.commons:commons-lang3:3.4'
-
     compile 'commons-io:commons-io:2.4'
     compile 'io.card:android-sdk:5.5.1'
-
     compile project(':library')
 }

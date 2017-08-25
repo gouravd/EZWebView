@@ -30,6 +30,7 @@ import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -691,7 +692,7 @@ public class Fx9C {
         return this;
     }
 
-    protected void updateWebViewCacheMode() {
+    private void updateWebViewCacheMode() {
         switch (cacheMode) {
             case LOAD_DEFAULT:
                 webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -702,7 +703,7 @@ public class Fx9C {
         }
     }
 
-    protected void updateWebChromeClient() {
+    private void updateWebChromeClient() {
         ChromeLoader webChromeClient = null;
         if (progressBar == null) {
             webChromeClient = new ChromeLoader();
@@ -715,7 +716,7 @@ public class Fx9C {
         webView.setWebChromeClient(webChromeClient);
     }
 
-    protected void updateWebViewSettings() {
+    private void updateWebViewSettings() {
         if (webView == null) {
             throw new IllegalArgumentException("webview is not initialized before loading web content");
         }
@@ -767,6 +768,40 @@ public class Fx9C {
         } else {
             Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
         }
+    }
+
+    /**
+     * post URL data with post
+     *
+     * @param url       uri
+     * @param mapParams params
+     */
+
+    public void loadUrlByPost(String url, Map<String, String> mapParams) {
+        webView.postUrl(url, UriFactory.urlEncodeUTF8(mapParams).getBytes());
+    }
+
+    /**
+     * post URL data with post
+     *
+     * @param url       uri
+     * @param mapParams params
+     */
+    public void loadUrlByPostAlternative(String url, Map<String, String> mapParams) {
+        Collection<Map.Entry<String, String>> postData = mapParams.entrySet();
+        webview_ClientPost(webView, url, postData);
+    }
+
+    private static void webview_ClientPost(WebView webView, String url, Collection<Map.Entry<String, String>> postData) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html><head></head>");
+        sb.append("<body onload='form1.submit()'>");
+        sb.append(String.format("<form id='form1' action='%s' method='%s'>", url, "post"));
+        for (Map.Entry<String, String> item : postData) {
+            sb.append(String.format("<input name='%s' type='hidden' value='%s' />", item.getKey(), item.getValue()));
+        }
+        sb.append("</form></body></html>");
+        webView.loadData(sb.toString(), "text/html", "UTF-8");
     }
 
     public void loadWebContent(WebContent webContent) {
