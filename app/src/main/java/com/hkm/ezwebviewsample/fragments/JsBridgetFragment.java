@@ -2,21 +2,17 @@ package com.hkm.ezwebviewsample.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
+import com.hkm.ezwebview.bridge.BridgeHandler;
+import com.hkm.ezwebview.bridge.BridgeWebView;
+import com.hkm.ezwebview.bridge.BridgeWebViewClient;
 import com.hkm.ezwebview.bridge.CallBackFunction;
-import com.hkm.ezwebview.webviewclients.PaymentClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.hkm.ezwebviewsample.R;
 
@@ -35,13 +31,7 @@ public class JsBridgetFragment extends BasicWebViewNormal {
     public JsBridgetFragment() {
     }
 
-    NonLeakingWebView bblock;
-
-    @Override
-    protected void initBinding(View v) {
-        super.initBinding(v);
-        bblock = (NonLeakingWebView) v.findViewById(com.hkm.ezwebview.R.id.wv_content_block);
-    }
+    BridgeWebView bridgeWebView;
 
     @Override
     protected int getLayoutId() {
@@ -52,73 +42,67 @@ public class JsBridgetFragment extends BasicWebViewNormal {
     @Override
     public void onViewCreated(View v, Bundle b) {
         initBinding(v);
-
+        if (block instanceof BridgeWebView) {
+            bridgeWebView = (BridgeWebView) block;
+        }
         Activity activity = getActivity();
         if (activity == null) {
             return;
         }
+        CartPaymentWebiViewClient webViewClient = new CartPaymentWebiViewClient(bridgeWebView);
 
-
-        WebViewClient webViewClient = CartPaymentWebiViewClient.with(activity, bblock);
         try {
-            Fx9C
-                    .with(getActivity())
+            Fx9C.with()
+                    .setWebView(bridgeWebView)
+                    .setWebViewClient(webViewClient)
+                    .setWebViewHolder(framer)
                     .setProgressBar(betterCircleBar)
                     .setAnimationDuration(1600)
                     .setEnableZoomSupport()
                     .setShowZoomButton()
-                    .setWebViewClient(webViewClient)
-                    .setWebViewHolder(framer)
-                    .setWebView(bblock)
-                    .loadlUrlWithJsBridget("http://13.228.58.92/website/webview/seatPlan.php?showid=21000034", new CallBackFunction() {
-                        @Override
-                        public void onCallBack(String data) {
-                            Log.d("seatplan", data);
-                        }
-                    });
+                    .loadUrl(
+                            LOCATION_SEATPLAN,
+                            "seat_plan_arrangement",
+                            new BridgeHandler() {
+                                @Override
+                                public void handler(String data, CallBackFunction function) {
+                                    Log.d("seatplan", data);
+                                   // function.onCallBack("got the data");
+                                }
+                            });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
+    private static final String FILE_LOCATION = "file:///android_asset/testui.html";
+    private static final String LOCATION_SEATPLAN = "http://13.228.58.92/website/webview/seatPlan.php?showid=21000041";
 
-    public static class CartPaymentWebiViewClient extends PaymentClient {
+    public static class CartPaymentWebiViewClient extends BridgeWebViewClient {
         public static final String CART_URL = "https://www.amazon.com/cart";
         public static final String CART_URL_REDIRECTED = "https://www.amazon.com/gp/cart/view.html";
         public static final String CART_URL_SIGNIN = "https://www.amazon.com/ap/signin";
 
-        public static CartPaymentWebiViewClient with(Activity context, WebView mview) {
-            return new CartPaymentWebiViewClient(context, mview);
-        }
 
-        @Override
-        protected void triggerNative(Uri trigger_url) {
-            super.triggerNative(trigger_url);
-        }
-
-        public CartPaymentWebiViewClient(Activity context, WebView fmWebView) {
-            super(context, fmWebView);
-            allow = new String[]{
-                    CART_URL,
-                    CART_URL_REDIRECTED,
-                    CART_URL_SIGNIN
-            };
+        public CartPaymentWebiViewClient(BridgeWebView webView) {
+            super(webView);
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (block != null) {
-            block.onPause();
+        if (bridgeWebView != null) {
+            bridgeWebView.onPause();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (block != null) {
-            block.onResume();
+        if (bridgeWebView != null) {
+            bridgeWebView.onResume();
         }
     }
 

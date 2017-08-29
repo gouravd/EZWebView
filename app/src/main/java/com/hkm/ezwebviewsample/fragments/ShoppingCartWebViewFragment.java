@@ -45,7 +45,7 @@ public class ShoppingCartWebViewFragment extends BasicWebViewNormal {
 
         try {
             Fx9C
-                    .with(getActivity())
+                    .with()
                     .setProgressBar(betterCircleBar)
                     .setUserAgent(USER_AGENT)
                     .setAnimationDuration(1600)

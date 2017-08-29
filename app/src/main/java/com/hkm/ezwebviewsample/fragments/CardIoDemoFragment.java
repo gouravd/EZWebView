@@ -52,8 +52,8 @@ public class CardIoDemoFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        webViewContainer = (RelativeLayout)view.findViewById(R.id.webview_container);
-        webView = (WebView)view.findViewById(R.id.webview);
+        webViewContainer = (RelativeLayout) view.findViewById(R.id.webview_container);
+        webView = (WebView) view.findViewById(R.id.webview);
         initWebView();
     }
 
@@ -69,8 +69,7 @@ public class CardIoDemoFragment extends Fragment {
 
         webView.addJavascriptInterface(this, "CardIoInterface");
         try {
-            Fx9C.with(getActivity())
-                    .setJavaScriptEnabled(true)
+            Fx9C.with().setJavaScriptEnabled(true)
                     .setWebViewHolder(webViewContainer)
                     .setWebView(webView)
                     .loadWebContent(new WebContent("https://www.example.com", "", webContent));

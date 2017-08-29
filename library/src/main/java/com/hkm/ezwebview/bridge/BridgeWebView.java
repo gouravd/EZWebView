@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
-public abstract class BridgeWebView extends WebView implements WebViewJavascriptBridge {
+public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 
     private final String TAG = "BridgeWebView";
 
@@ -38,17 +38,16 @@ public abstract class BridgeWebView extends WebView implements WebViewJavascript
 
     public BridgeWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+
     }
 
     public BridgeWebView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
     }
 
     public BridgeWebView(Context context) {
         super(context);
-        init();
+
     }
 
     /**
@@ -59,7 +58,7 @@ public abstract class BridgeWebView extends WebView implements WebViewJavascript
         this.defaultHandler = handler;
     }
 
-    private void init() {
+  /*  public void init() {
         this.setVerticalScrollBarEnabled(false);
         this.setHorizontalScrollBarEnabled(false);
         this.getSettings().setJavaScriptEnabled(true);
@@ -71,7 +70,7 @@ public abstract class BridgeWebView extends WebView implements WebViewJavascript
 
     protected BridgeWebViewClient generateBridgeWebViewClient() {
         return new BridgeWebViewClient(this);
-    }
+    }*/
 
     void handlerReturnData(String url) {
         String functionName = BridgeUtil.getFunctionFromReturnUrl(url);

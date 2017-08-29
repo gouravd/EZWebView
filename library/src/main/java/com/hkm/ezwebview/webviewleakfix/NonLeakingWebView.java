@@ -1,5 +1,6 @@
 package com.hkm.ezwebview.webviewleakfix;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
@@ -27,7 +28,7 @@ import java.util.Map;
  * Also, you must call {@link #destroy()} from your activity's onDestroy method.
  * Author Heskeyo Kam
  */
-
+@SuppressLint("SetJavaScriptEnabled")
 public class NonLeakingWebView<T extends PreventLeakClient> extends BridgeWebView {
     private static final String TAG = NonLeakingWebView.class.getSimpleName();
     private static Field sConfigCallback;
@@ -50,7 +51,7 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends BridgeWebVie
         }
     }
 
-    public NonLeakingWebView(Context context, Class<T> client) {
+    public NonLeakingWebView(Context context) {
         super(context.getApplicationContext());
         //  super.setWebViewClient(new HBClient(this, b));
     }
@@ -145,7 +146,7 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends BridgeWebVie
     /**
      * Impliment in the activity/fragment/view that you want to listen to the webview
      */
-    public static interface OnScrollChangedCallback {
+    public interface OnScrollChangedCallback {
         void onScroll(int l, int t);
     }
 

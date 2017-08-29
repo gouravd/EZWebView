@@ -21,8 +21,11 @@ import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.BuildConfig;
 import com.hkm.ezwebview.R;
+import com.hkm.ezwebview.bridge.BridgeHandler;
 import com.hkm.ezwebview.bridge.BridgeWebView;
+import com.hkm.ezwebview.bridge.BridgeWebViewClient;
 import com.hkm.ezwebview.bridge.CallBackFunction;
+import com.hkm.ezwebview.bridge.DefaultHandler;
 import com.hkm.ezwebview.models.WebContent;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.HClient;
@@ -59,7 +62,7 @@ public class Fx9C {
         startToReveal(view, 800, callback);
     }
 
-    public static void startToReveal(final ViewGroup view, final long animateDuration, final Runnable callback) {
+    private static void startToReveal(final ViewGroup view, final long animateDuration, final Runnable callback) {
         final Handler h = new Handler();
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0f);
@@ -72,7 +75,7 @@ public class Fx9C {
         }, 80);
     }
 
-    public static void startToReveal(final ViewGroup view, final long animateDuration) {
+    private static void startToReveal(final ViewGroup view, final long animateDuration) {
         if (view == null) {
             Log.e(TAG, "view is null; ignoring call to startToReveal");
             return;
@@ -197,7 +200,7 @@ public class Fx9C {
         setup_content_block_custom_css(context, frame_holder, block, css, codeing, 1500, hasVideo, c, cb);
     }
 
-
+    @SuppressLint("SetJavaScriptEnabled")
     public static <T> void setup_content_block_custom_css(
             final T context,
             final RelativeLayout frame_holder,
@@ -543,30 +546,31 @@ public class Fx9C {
     /**
      * intermediate implementation to encapsulate Fx9C and provide consistent api
      */
-    protected final String DEFAULT_MIME_TYPE = "text/html";
-    protected final String DEFAULT_ENCODING = "UTF-8";
+    private final String DEFAULT_MIME_TYPE = "text/html";
+    private final String DEFAULT_ENCODING = "UTF-8";
 
-    protected Context context;
-    protected boolean allowAutomaticMediaPlayback = false;
-    protected boolean allowHTTPSMixedContent = false;
-    protected boolean zoomSupport = false;
-    protected boolean zoomSupportControl = false;
-    protected long animateDuration;
-    protected String baseUrl = "";
-    protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
-    protected WebViewClient webViewClient = null;
-    protected boolean isAppCacheEnabled = false;
-    protected boolean isChromeDebugEnabled = false;
-    protected boolean isJavaScriptEnabled = true;
-    protected RelativeLayout webViewHolder;
-    protected WebView webView = null;
-    protected ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
-    protected Runnable onCompleteCallback = null;
-    protected CircleProgressBar progressBar = null;
-    protected String userAgent = null;
+    private Context context;
+    private boolean isAppCacheEnabled = false;
+    private boolean isChromeDebugEnabled = false;
+    private boolean isJavaScriptEnabled = true;
+    private boolean allowAutomaticMediaPlayback = false;
+    private boolean allowHTTPSMixedContent = false;
+    private boolean zoomSupport = false;
+    private boolean zoomSupportControl = false;
+    private long animateDuration;
+    private String baseUrl = "";
+    private CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
+    private WebViewClient webViewClient = null;
 
-    public static Fx9C with(Context context) {
-        return new Fx9C(context);
+    private RelativeLayout webViewHolder;
+    private WebView webView = null;
+    private ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
+    private Runnable onCompleteCallback = null;
+    private CircleProgressBar progressBar = null;
+    private String userAgent = null;
+
+    public static Fx9C with() {
+        return new Fx9C();
     }
 
     private Fx9C() {
@@ -576,12 +580,7 @@ public class Fx9C {
         }
         cookieManager.setAcceptCookie(true);
         cacheMode = CacheMode.LOAD_DEFAULT;
-    }
-
-    private Fx9C(Context context) {
-        super();
-        this.context = context;
-        animateDuration = 500;  /* default duration value for webview visibility transition animation */
+        animateDuration = 500;
     }
 
     /**
@@ -677,12 +676,26 @@ public class Fx9C {
         return this;
     }
 
-    public Fx9C setWebView(@NonNull WebView webView) {
+    public Fx9C setWebView(BridgeWebView webView) {
         this.webView = webView;
+        context = webView.getContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, false);
+        }
+        return this;
+    }
 
+    public Fx9C setWebView(WebView webView) {
+        this.webView = webView;
+        context = webView.getContext();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
         }
+        return this;
+    }
+
+    public Fx9C setWebViewClient(BridgeWebViewClient client) {
+        this.webViewClient = client;
         return this;
     }
 
@@ -751,53 +764,26 @@ public class Fx9C {
     }
 
     /**
-     * the preconfiguration of the website settings
-     *
-     * @throws IllegalArgumentException otherwise
+     * @param filename    the uri path
+     * @param handlerName the tag
+     * @param bridge      the BridgeHandler
+     * @throws Exception error
      */
-    private void pre_config() throws IllegalArgumentException {
-        if (webView == null) {
-            throw new IllegalArgumentException("webview is not initialized before loading web content");
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG || isChromeDebugEnabled);
-        }
-
-        if (webViewClient != null) {
-            webView.setWebViewClient(webViewClient);
-        }
-
-        WebSettings settings = this.webView.getSettings();
-        if (userAgent != null) {
-            settings.setUserAgentString(userAgent);
-        }
-
-        if (allowHTTPSMixedContent) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-            }
-        }
-
-        settings.setJavaScriptEnabled(isJavaScriptEnabled);
-        settings.setSupportZoom(zoomSupport);
-        settings.setDisplayZoomControls(zoomSupportControl);
-        settings.setBuiltInZoomControls(zoomSupportControl);
-        settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
-        }
-        updateWebChromeClient();
-        updateWebViewCacheMode();
-    }
-
-    private void post_config() {
-        webView.setVisibility(View.VISIBLE);
-        if (onCompleteCallback == null) {
-            Fx9C.startToReveal(webViewHolder, animateDuration);
-        } else {
-            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
+    public void loadUrl(String filename, String handlerName, BridgeHandler bridge) throws Exception {
+        if (this.webView instanceof BridgeWebView) {
+            pre_config();
+            BridgeWebView tv = (BridgeWebView) this.webView;
+            tv.setDefaultHandler(new DefaultHandler());
+            tv.loadUrl(filename);
+            tv.registerHandler(handlerName, bridge);
+            tv.callHandler("functionInJs", "testing is now started...", new CallBackFunction() {
+                @Override
+                public void onCallBack(String data) {
+                    Log.d(TAG, data);
+                }
+            });
+            tv.send("hello");
+            post_config();
         }
     }
 
@@ -860,19 +846,6 @@ public class Fx9C {
         post_config();
     }
 
-    /**
-     * extended from the integration of jsbridge
-     *
-     * @param url  the uri path
-     * @param call the callbacks
-     */
-    public void loadlUrlWithJsBridget(String url, CallBackFunction call) {
-        if (webView instanceof BridgeWebView) {
-            pre_config();
-            ((BridgeWebView) webView).loadUrlWithCallBacks(url, call);
-            post_config();
-        }
-    }
 
     /**
      * calling any handler name in run time
@@ -887,17 +860,90 @@ public class Fx9C {
         }
     }
 
+    /**
+     * send to js
+     *
+     * @param data the data in string
+     * @param cb   the callback function
+     */
     public void RTSendDefaultToJs(String data, CallBackFunction cb) {
         if (webView instanceof BridgeWebView) {
             ((BridgeWebView) webView).send(data, cb);
         }
     }
 
+    /**
+     * send to js
+     *
+     * @param data the data in string
+     */
     public void RTSendDefaultToJs(String data) {
         if (webView instanceof BridgeWebView) {
             ((BridgeWebView) webView).send(data);
         }
     }
 
+
+    /**
+     * the preconfiguration of the website settings
+     *
+     * @throws Exception otherwise
+     */
+    @SuppressLint("SetJavaScriptEnabled")
+    private void pre_config() throws Exception {
+        if (webView == null) {
+            throw new Exception("webview is not initialized before loading web content");
+        }
+        if (webViewClient == null) {
+            throw new Exception("webViewClient is not initialized before loading web content");
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG || isChromeDebugEnabled);
+        }
+
+        if (webViewClient instanceof BridgeWebViewClient && webView instanceof BridgeWebView) {
+            BridgeWebViewClient bwc = (BridgeWebViewClient) webViewClient;
+            BridgeWebView bwv = (BridgeWebView) webView;
+            bwv.setWebViewClient(bwc);
+        } else {
+            webView.setWebViewClient(webViewClient);
+        }
+
+
+        WebSettings settings = this.webView.getSettings();
+        if (userAgent != null) {
+            settings.setUserAgentString(userAgent);
+        }
+
+        if (allowHTTPSMixedContent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            }
+        }
+        if (webViewClient instanceof BridgeWebViewClient && webView instanceof BridgeWebView) {
+            settings.setJavaScriptEnabled(true);
+        } else
+            settings.setJavaScriptEnabled(isJavaScriptEnabled);
+        settings.setSupportZoom(zoomSupport);
+        settings.setDisplayZoomControls(zoomSupportControl);
+        settings.setBuiltInZoomControls(zoomSupportControl);
+        settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
+        }
+        updateWebChromeClient();
+        updateWebViewCacheMode();
+    }
+
+    private void post_config() {
+        webView.setVisibility(View.VISIBLE);
+        if (onCompleteCallback == null) {
+            Fx9C.startToReveal(webViewHolder, animateDuration);
+        } else {
+            Fx9C.startToReveal(webViewHolder, animateDuration, onCompleteCallback);
+        }
+    }
 
 }
