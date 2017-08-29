@@ -68,11 +68,15 @@ public class CardIoDemoFragment extends Fragment {
         }
 
         webView.addJavascriptInterface(this, "CardIoInterface");
-        Fx9C.with(getActivity())
-                .setJavaScriptEnabled(true)
-                .setWebViewHolder(webViewContainer)
-                .setWebView(webView)
-                .loadWebContent(new WebContent("https://www.example.com", "", webContent));
+        try {
+            Fx9C.with(getActivity())
+                    .setJavaScriptEnabled(true)
+                    .setWebViewHolder(webViewContainer)
+                    .setWebView(webView)
+                    .loadWebContent(new WebContent("https://www.example.com", "", webContent));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @JavascriptInterface

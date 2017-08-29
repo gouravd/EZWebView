@@ -1,4 +1,4 @@
-package com.hkm.ezwebviewsample;
+package com.hkm.ezwebviewsample.fragments;
 
 
 import android.app.Activity;

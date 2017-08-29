@@ -1,4 +1,4 @@
-package com.hkm.ezwebviewsample;
+package com.hkm.ezwebviewsample.fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.View;
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
+import com.hkm.ezwebviewsample.R;
 
 /**
  * Created by hesk on 5/10/15.

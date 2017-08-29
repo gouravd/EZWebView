@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.BuildConfig;
 import com.hkm.ezwebview.R;
+import com.hkm.ezwebview.bridge.BridgeWebView;
+import com.hkm.ezwebview.bridge.CallBackFunction;
 import com.hkm.ezwebview.models.WebContent;
 import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.HClient;
@@ -547,6 +549,8 @@ public class Fx9C {
     protected Context context;
     protected boolean allowAutomaticMediaPlayback = false;
     protected boolean allowHTTPSMixedContent = false;
+    protected boolean zoomSupport = false;
+    protected boolean zoomSupportControl = false;
     protected long animateDuration;
     protected String baseUrl = "";
     protected CacheMode cacheMode = CacheMode.LOAD_DEFAULT;
@@ -640,6 +644,16 @@ public class Fx9C {
 
     public Fx9C setProgressBar(CircleProgressBar progressBar) {
         this.progressBar = progressBar;
+        return this;
+    }
+
+    public Fx9C setShowZoomButton() {
+        zoomSupportControl = true;
+        return this;
+    }
+
+    public Fx9C setEnableZoomSupport() {
+        zoomSupport = true;
         return this;
     }
 
@@ -766,7 +780,9 @@ public class Fx9C {
         }
 
         settings.setJavaScriptEnabled(isJavaScriptEnabled);
-
+        settings.setSupportZoom(zoomSupport);
+        settings.setDisplayZoomControls(zoomSupportControl);
+        settings.setBuiltInZoomControls(zoomSupportControl);
         settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
@@ -843,4 +859,45 @@ public class Fx9C {
         webView.loadDataWithBaseURL(webContent.getBaseUrl(), webContent.getRenderedHtml(), DEFAULT_MIME_TYPE, DEFAULT_ENCODING, webContent.getHistoryUrl());
         post_config();
     }
+
+    /**
+     * extended from the integration of jsbridge
+     *
+     * @param url  the uri path
+     * @param call the callbacks
+     */
+    public void loadlUrlWithJsBridget(String url, CallBackFunction call) {
+        if (webView instanceof BridgeWebView) {
+            pre_config();
+            ((BridgeWebView) webView).loadUrlWithCallBacks(url, call);
+            post_config();
+        }
+    }
+
+    /**
+     * calling any handler name in run time
+     *
+     * @param HandlerName the name of the handler
+     * @param data        the data in string
+     * @param cb          the callback function
+     */
+    public void RTSendToJs(String HandlerName, String data, CallBackFunction cb) {
+        if (webView instanceof BridgeWebView) {
+            ((BridgeWebView) webView).callHandler(HandlerName, data, cb);
+        }
+    }
+
+    public void RTSendDefaultToJs(String data, CallBackFunction cb) {
+        if (webView instanceof BridgeWebView) {
+            ((BridgeWebView) webView).send(data, cb);
+        }
+    }
+
+    public void RTSendDefaultToJs(String data) {
+        if (webView instanceof BridgeWebView) {
+            ((BridgeWebView) webView).send(data);
+        }
+    }
+
+
 }

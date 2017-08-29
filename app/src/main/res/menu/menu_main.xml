@@ -43,5 +43,10 @@
         android:orderInCategory="100"
         android:title="Simple View Cart"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/jsbr"
+        android:orderInCategory="100"
+        android:title="Js bridge testing"
+        app:showAsAction="never" />
 
 </menu>

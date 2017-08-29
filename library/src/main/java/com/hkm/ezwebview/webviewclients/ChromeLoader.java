@@ -25,7 +25,7 @@ public class ChromeLoader extends WebChromeClient {
     protected OnCloseWindowCallback onCloseWindowCallback = null;
 
     public interface OnCloseWindowCallback {
-        public void onCloseWindow(WebView window);
+        void onCloseWindow(WebView window);
     }
 
     public ChromeLoader(CircleProgressBar circlebar, int time_fade) {

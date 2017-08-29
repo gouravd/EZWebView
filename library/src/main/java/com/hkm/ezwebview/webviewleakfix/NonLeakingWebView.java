@@ -6,9 +6,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.WebView;
 
+import com.hkm.ezwebview.bridge.BridgeHandler;
+import com.hkm.ezwebview.bridge.BridgeWebView;
+import com.hkm.ezwebview.bridge.CallBackFunction;
+import com.hkm.ezwebview.bridge.DefaultHandler;
+import com.hkm.ezwebview.bridge.Message;
+import com.hkm.ezwebview.bridge.WebViewJavascriptBridge;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * see http://stackoverflow.com/questions/3130654/memory-leak-in-webview and http://code.google.com/p/android/issues/detail?id=9375
@@ -17,7 +28,7 @@ import java.lang.reflect.Method;
  * Author Heskeyo Kam
  */
 
-public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
+public class NonLeakingWebView<T extends PreventLeakClient> extends BridgeWebView {
     private static final String TAG = NonLeakingWebView.class.getSimpleName();
     private static Field sConfigCallback;
     private OnScrollChangedCallback mOnScrollChangedCallback;
@@ -157,4 +168,5 @@ public class NonLeakingWebView<T extends PreventLeakClient> extends WebView {
     public void onResume() {
         super.onResume();
     }
+
 }

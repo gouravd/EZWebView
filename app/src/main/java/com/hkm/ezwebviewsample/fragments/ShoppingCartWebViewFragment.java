@@ -1,4 +1,4 @@
-package com.hkm.ezwebviewsample;
+package com.hkm.ezwebviewsample.fragments;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -11,6 +11,7 @@ import android.webkit.WebViewClient;
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
+import com.hkm.ezwebviewsample.BuildConfig;
 
 /**
  * Created by hesk on 22/9/15.
@@ -42,15 +43,19 @@ public class ShoppingCartWebViewFragment extends BasicWebViewNormal {
         }
         WebViewClient webViewClient = CartPaymentWebiViewClient.with(activity, block);
 
-        Fx9C
-                .with(getActivity())
-                .setProgressBar(betterCircleBar)
-                .setUserAgent(USER_AGENT)
-                .setAnimationDuration(1600)
-                .setWebViewClient(webViewClient)
-                .setWebViewHolder(framer)
-                .setWebView(block)
-                .loadUrl(CART_URL);
+        try {
+            Fx9C
+                    .with(getActivity())
+                    .setProgressBar(betterCircleBar)
+                    .setUserAgent(USER_AGENT)
+                    .setAnimationDuration(1600)
+                    .setWebViewClient(webViewClient)
+                    .setWebViewHolder(framer)
+                    .setWebView(block)
+                    .loadUrl(CART_URL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

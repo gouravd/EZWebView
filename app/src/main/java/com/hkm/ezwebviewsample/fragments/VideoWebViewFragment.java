@@ -1,4 +1,4 @@
-package com.hkm.ezwebviewsample;
+package com.hkm.ezwebviewsample.fragments;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -20,6 +20,7 @@ import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
+import com.hkm.ezwebviewsample.R;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.ArrayList;
