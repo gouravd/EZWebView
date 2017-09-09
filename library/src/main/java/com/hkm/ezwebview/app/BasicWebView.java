@@ -120,6 +120,4 @@ public abstract class BasicWebView extends Fragment {
     protected void killWebViewDefault() {
         killWebView(null);
     }
-
-
 }

@@ -20,6 +20,7 @@ Feature list
 - [x] support sound cloud
 - [x] extra js script runtime
 - [x] JsBridge integration, make a bridge between Java and JavaScript.
+- [x] Youtube dialog display with material design.
 
 Download for the [Sample APK][2]
 
@@ -308,6 +309,19 @@ If WebViewJavascriptBridge does not exit, you can listen to WebViewJavascriptBri
 
 ```
 
+## Dialog webview implementation
+For fragment that uses support.v4 package:
+The youtube video ID will be taken in place
+
+```javascript
+   EzWebDialogNonLeakv4.newInstanceYoutube("_Oh9oSZSUbQ").show(getFragmentManager());
+```
+
+For normal support:
+
+```javascript
+   EzWebDialogNonLeak.newInstanceYoutube("_Oh9oSZSUbQ").show(getFragmentManager());
+```
 
 
 License

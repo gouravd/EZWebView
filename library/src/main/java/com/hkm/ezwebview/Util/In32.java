@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hesk on 6/8/15.
@@ -217,4 +219,20 @@ public class In32 {
         return printing;
     }
 
+    public static String getYoutubeVideoId(String youtubeUrl) {
+        String videoId = "";
+        if (youtubeUrl != null && youtubeUrl.trim().length() > 0 && youtubeUrl.startsWith("http")) {
+
+            String expression = "^.*((youtu.be" + "/)" + "|(v/)|(/u/w/)|(embed/)|(watch\\?))\\??v?=?([^#&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(youtubeUrl);
+            if (matcher.matches()) {
+                String groupIndex1 = matcher.group(7);
+                if (groupIndex1 != null && groupIndex1.length() == 11)
+                    videoId = groupIndex1;
+            }
+
+        }
+        return videoId;
+    }
 }

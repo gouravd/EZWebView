@@ -48,5 +48,9 @@
         android:orderInCategory="100"
         android:title="Js bridge testing"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/java_fragment_button"
+        android:orderInCategory="100"
+        android:title="Button Dialog"
+        app:showAsAction="never" />
 </menu>

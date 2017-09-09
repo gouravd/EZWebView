@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
+import com.hkm.ezwebviewsample.fragments.BtDialogFragment;
 import com.hkm.ezwebviewsample.fragments.CardIoDemoFragment;
 import com.hkm.ezwebviewsample.fragments.JsBridgetFragment;
 import com.hkm.ezwebviewsample.fragments.OfflineEmbeddedWebViewFragment;
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.jsbr: {
                 ofFragment(JsBridgetFragment.newInstance());
+                break;
+            }
+            case R.id.java_fragment_button: {
+                ofFragment(BtDialogFragment.newInstance());
                 break;
             }
 
