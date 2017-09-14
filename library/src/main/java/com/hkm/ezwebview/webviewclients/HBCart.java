@@ -1,10 +1,14 @@
 package com.hkm.ezwebview.webviewclients;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,6 +17,8 @@ import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hesk on 3/5/15.
@@ -23,11 +29,12 @@ public abstract class HBCart extends WebViewClient {
     private final Context mContext;
     private boolean redirect = false;
     private boolean loadingFinished = true;
+    private boolean reflect_response_content = false;
     private final WebView mWebView;
     public static String TAG = "hbcartclient";
 
     private final ArrayList<String> allowing = new ArrayList<>();
-    private final ArrayList<String> startfrom = new ArrayList<>();
+    private final ArrayList<String> start_from = new ArrayList<>();
 
     public HBCart(final Activity context, final WebView fmWebView) {
         super();
@@ -44,8 +51,8 @@ public abstract class HBCart extends WebViewClient {
             final List<String> start_from_intent) {
         this.allowing.clear();
         this.allowing.addAll(allow_browsing);
-        this.startfrom.clear();
-        this.startfrom.addAll(start_from_intent);
+        this.start_from.clear();
+        this.start_from.addAll(start_from_intent);
     }
 
     protected abstract void triggerNative(final Uri trigger_url);
@@ -74,12 +81,26 @@ public abstract class HBCart extends WebViewClient {
 
 
     @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        return super.shouldOverrideUrlLoading(view, request);
+    }
+
+    protected void releaseContentHtml(String html) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("HTML")
+                .setMessage(html)
+                .setPositiveButton(android.R.string.ok, null)
+                .setCancelable(false)
+                .create();
+    }
+
+    @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         loadingFinished = false;
         //SHOW LOADING IF IT ISNT ALREADY VISIBLE
         super.onPageStarted(view, url, favicon);
-        //  CustomLogger.showLog("Beta", "onPage Started url is" + url);
     }
+
 
     @Override
     public void onPageFinished(WebView view, String url) {
@@ -92,7 +113,31 @@ public abstract class HBCart extends WebViewClient {
             redirect = false;
         }
         super.onPageFinished(view, url);
-
+        retrieveContent();
     }
 
+    private String pageHTML = "";
+
+    class ContentInterceptor {
+        @SuppressWarnings("unused")
+        public void showHTML(String html, Context context) {
+            pageHTML = html;
+            releaseContentHtml(html);
+        }
+    }
+
+    protected final void setEnableRetrieveContent(boolean b) {
+        reflect_response_content = b;
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void retrieveContent() {
+        if (!reflect_response_content) return;
+        ContentInterceptor k = new ContentInterceptor();
+        mWebView.addJavascriptInterface(k, "HTMLOUT");
+        mWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+        Pattern pattern = Pattern.compile("<h2>Winning Sc.+</h2></div>(.+)<br>", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(pageHTML);
+        matcher.find();
+    }
 }

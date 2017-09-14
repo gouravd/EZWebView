@@ -64,7 +64,6 @@ public class URLClient extends HBCart {
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         super.onReceivedHttpError(view, request, errorResponse);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Log.i("htmlError", request.toString() + " \nResponse: " + errorResponse.getReasonPhrase());
         }

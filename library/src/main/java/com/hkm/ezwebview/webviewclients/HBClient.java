@@ -63,7 +63,6 @@ public abstract class HBClient extends PreventLeakClient<Activity> {
         return false;
     }
 
-
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         return overridedefaultHBlogic(url, activity) ? true : In32.interceptURL_HB(url, activity);
