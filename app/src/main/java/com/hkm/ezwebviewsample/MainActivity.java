@@ -12,6 +12,7 @@ import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
 import com.hkm.ezwebviewsample.fragments.BtDialogFragment;
 import com.hkm.ezwebviewsample.fragments.CardIoDemoFragment;
+import com.hkm.ezwebviewsample.fragments.IstPayment;
 import com.hkm.ezwebviewsample.fragments.JsBridgetFragment;
 import com.hkm.ezwebviewsample.fragments.OfflineEmbeddedWebViewFragment;
 import com.hkm.ezwebviewsample.fragments.OfflineWebViewFragment;
@@ -80,7 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 ofFragment(CardIoDemoFragment.newInstance());
                 break;
             }
-
+            case R.id.cybersource: {
+                ofFragment(IstPayment.newInstance());
+                break;
+            }
             case R.id.jsbr: {
                 ofFragment(JsBridgetFragment.newInstance());
                 break;

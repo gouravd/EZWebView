@@ -754,10 +754,10 @@ public class Fx9C {
     private static void webview_ClientPost(WebView webView, String url, Collection<Map.Entry<String, String>> postData) {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head></head>");
-        sb.append("<body onload='form1.submit()'>");
-        sb.append(String.format("<form id='form1' action='%s' method='%s'>", url, "post"));
+        sb.append("<body onload=\"from_prexmqgox.submit()\">");
+        sb.append(String.format("<form id=\"from_prexmqgox\" action=\"%s\" method=\"%s\">", url, "POST"));
         for (Map.Entry<String, String> item : postData) {
-            sb.append(String.format("<input name='%s' type='hidden' value='%s' />", item.getKey(), item.getValue()));
+            sb.append(String.format("<input name=\"%s\" type=\"hidden\" value=\"%s\" />", item.getKey(), item.getValue()));
         }
         sb.append("</form></body></html>");
         webView.loadData(sb.toString(), "text/html", "UTF-8");
@@ -925,6 +925,7 @@ public class Fx9C {
             settings.setJavaScriptEnabled(true);
         } else
             settings.setJavaScriptEnabled(isJavaScriptEnabled);
+
         settings.setSupportZoom(zoomSupport);
         settings.setDisplayZoomControls(zoomSupportControl);
         settings.setBuiltInZoomControls(zoomSupportControl);
@@ -933,6 +934,7 @@ public class Fx9C {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             settings.setMediaPlaybackRequiresUserGesture(!allowAutomaticMediaPlayback);
         }
+
         updateWebChromeClient();
         updateWebViewCacheMode();
     }
