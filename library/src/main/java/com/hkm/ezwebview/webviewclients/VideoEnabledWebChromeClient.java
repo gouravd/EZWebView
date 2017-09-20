@@ -11,8 +11,8 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.hkm.ezwebview.loadingi.CircleProgressBar;
 import com.hkm.ezwebview.videoenabledwebview.VideoEnabledWebView;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 /**
  * Created by hayton on 27/1/2017.

@@ -15,11 +15,11 @@ import com.hkm.ezwebviewsample.R;
  * Created by hesk on 9/9/2017.
  */
 
-public class BtDialogFragment extends Fragment {
+public class BDialogFragment extends Fragment {
 
 
-    public static BtDialogFragment newInstance() {
-        return new BtDialogFragment();
+    public static BDialogFragment newInstance() {
+        return new BDialogFragment();
     }
 
     Button button_one;

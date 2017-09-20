@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
+import com.hkm.ezwebview.loadingi.CircleProgressBar;
 import com.hkm.ezwebview.webviewclients.URLClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by hesk on 6/8/15.
  */
-public class hybridfragment extends Fragment implements URLClient.cb {
+public class HpbridFragment extends Fragment implements URLClient.cb {
 
     private NonLeakingWebView block;
     private CircleProgressBar betterCircleBar;

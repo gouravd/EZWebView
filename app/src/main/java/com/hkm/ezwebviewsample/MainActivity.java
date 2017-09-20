@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.app.RichTextBox;
 import com.hkm.ezwebview.app.VideoFrameBox;
-import com.hkm.ezwebviewsample.fragments.BtDialogFragment;
+import com.hkm.ezwebviewsample.fragments.BDialogFragment;
 import com.hkm.ezwebviewsample.fragments.CardIoDemoFragment;
 import com.hkm.ezwebviewsample.fragments.IstPayment;
 import com.hkm.ezwebviewsample.fragments.JsBridgetFragment;
@@ -18,7 +18,7 @@ import com.hkm.ezwebviewsample.fragments.OfflineEmbeddedWebViewFragment;
 import com.hkm.ezwebviewsample.fragments.OfflineWebViewFragment;
 import com.hkm.ezwebviewsample.fragments.ShoppingCartWebViewFragment;
 import com.hkm.ezwebviewsample.fragments.VideoWebViewFragment;
-import com.hkm.ezwebviewsample.fragments.hybridfragment;
+import com.hkm.ezwebviewsample.fragments.HpbridFragment;
 
 public class MainActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.hybrid: {
-                ofFragment(new hybridfragment());
+                ofFragment(new HpbridFragment());
                 break;
             }
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.java_fragment_button: {
-                ofFragment(BtDialogFragment.newInstance());
+                ofFragment(BDialogFragment.newInstance());
                 break;
             }
 

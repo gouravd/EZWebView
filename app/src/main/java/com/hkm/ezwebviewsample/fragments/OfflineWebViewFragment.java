@@ -2,10 +2,8 @@ package com.hkm.ezwebviewsample.fragments;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RawRes;
@@ -13,18 +11,12 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.hkm.ezwebview.Util.Fx9C;
-import com.hkm.ezwebview.Util.In32;
-import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.hkm.ezwebviewsample.R;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.Scanner;
 
@@ -70,10 +62,7 @@ public class OfflineWebViewFragment extends Fragment {
         initBinding(v);
         final String contentc = fromFileRaw(getActivity(), R.raw.sample_no_video);
         try {
-            Fx9C.setup_content_block_wb(this,
-                    content_article_frame,
-                    block,
-                    contentc,
+            Fx9C.setup_content_block_wb(this, content_article_frame, block, contentc,
                     new Runnable() {
                         @Override
                         public void run() {

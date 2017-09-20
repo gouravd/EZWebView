@@ -1,11 +1,10 @@
 package com.hkm.ezwebviewsample.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
@@ -27,13 +25,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import static android.content.ContentValues.TAG;
-
-
 /**
  * Created by hesk on 19/9/2017.
  */
-
 public class IstPayment extends BasicWebViewNormal {
 
     private HashMap<String, String> getMapping() {
@@ -70,7 +64,8 @@ public class IstPayment extends BasicWebViewNormal {
         cMap.put("merch_id", "100141000000301");
         cMap.put("merch_order_id", txn);
         cMap.put("merch_txn_id", txn);
-
+        // cMap.put("merch_order_id", "EO517116148107");
+        //  cMap.put("merch_txn_id", "EO517116148107");
         cMap.put("pay_type", "MC");
         cMap.put("currency", "344");
         cMap.put("amount", "45000");
@@ -152,6 +147,13 @@ public class IstPayment extends BasicWebViewNormal {
                 Log.d(TAG, "IstPaymentDoneRedirection ass is DS TIN RIGHT!!!!!!!");
             }
         }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            Log.d(TAG, "onReceivedHttpError " + errorResponse.getReasonPhrase() + " - " + errorResponse.getStatusCode() + " -- " + request.getUrl() + " M:" + request.getMethod() + " Main?" + (request.isForMainFrame() ? " MAINFRAME" : " NON-MAINFRAME"));
+        }
+
     }
 
     protected void loadCartContent() {
@@ -174,6 +176,7 @@ public class IstPayment extends BasicWebViewNormal {
         }
     }
 
+    Handler h = new Handler();
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -181,10 +184,20 @@ public class IstPayment extends BasicWebViewNormal {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             loadCartContent();
         }
+        kkao();
+
         //traditional
         // loadCartContent();
     }
 
+    private void kkao() {
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadCartContent();
+            }
+        }, 2000);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -207,7 +220,7 @@ public class IstPayment extends BasicWebViewNormal {
 
 
     public static String generateRandomString3() {
-        return getSaltString().substring(0, 10);
+        return getSaltString().substring(0, 6);
     }
 
 

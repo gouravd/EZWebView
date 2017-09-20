@@ -31,13 +31,14 @@ android {
         abortOnError false
     }
 }
-
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile libden.appCompat
-    compile libden.jsoup
-    compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
+    compile supportDependencies.appCompat
+    compile supportDependencies.jsoup
 }
 
 apply from: './br.gradle'

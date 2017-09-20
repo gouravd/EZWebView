@@ -7,7 +7,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.hkm.ezwebview.loadingi.CircleProgressBar;
+
 
 /**
  * Created by hesk on 3/13/15.

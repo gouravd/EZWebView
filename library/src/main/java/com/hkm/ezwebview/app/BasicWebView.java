@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.R;
+import com.hkm.ezwebview.loadingi.CircleProgressBar;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 /**
  * Created by hesk on 2/9/15.

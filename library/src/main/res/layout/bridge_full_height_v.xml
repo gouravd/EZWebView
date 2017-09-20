@@ -14,7 +14,7 @@
         android:scrollbars="none"
         android:visibility="gone" />
 
-    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+    <com.hkm.ezwebview.loadingi.CircleProgressBar
         android:id="@id/wv_simple_process"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

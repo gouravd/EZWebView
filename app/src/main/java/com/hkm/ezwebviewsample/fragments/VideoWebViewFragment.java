@@ -19,10 +19,10 @@ import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.Util.In32;
+import com.hkm.ezwebview.loadingi.CircleProgressBar;
 import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.hkm.ezwebviewsample.R;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,12 +130,7 @@ public class VideoWebViewFragment extends Fragment {
     private void setup_video() {
         final String embeddedWebContent = In32.fromFileRaw(getActivity(), R.raw.video_sample);
         try {
-            Fx9C.setup_web_video(
-                    this,
-                    framer,
-                    block,
-                    betterCircleBar,
-                    embeddedWebContent,
+            Fx9C.setup_web_video(this, framer, block, betterCircleBar, embeddedWebContent,
                     new HClient.Callback() {
                         @Override
                         public void retrieveCookie(String cookie_string) {
