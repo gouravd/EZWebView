@@ -285,7 +285,7 @@ public class CircleProgressBar extends ImageView {
      * The first color will also be the color of the bar that grows in response
      * to a user swipe gesture.
      *
-     * @param colorResIds
+     * @param colorResIds color
      */
     public void setColorSchemeResources(int... colorResIds) {
         final Resources res = getResources();
@@ -301,7 +301,7 @@ public class CircleProgressBar extends ImageView {
      * color will also be the color of the bar that grows in response to a user
      * swipe gesture.
      *
-     * @param colors
+     * @param colors color
      */
     public void setColorSchemeColors(int... colors) {
         mColors = colors;

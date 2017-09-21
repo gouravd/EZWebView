@@ -1,14 +1,20 @@
 package com.hkm.ezwebviewsample.fragments;
 
 import android.annotation.TargetApi;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.http.SslCertificate;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -18,7 +24,12 @@ import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
 import com.hkm.ezwebview.webviewclients.IstPaymentGatewayClient;
 import com.hkm.ezwebviewsample.BuildConfig;
+import com.hkm.ezwebviewsample.R;
 
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,13 +75,12 @@ public class IstPayment extends BasicWebViewNormal {
         cMap.put("merch_id", "100141000000301");
         cMap.put("merch_order_id", txn);
         cMap.put("merch_txn_id", txn);
-        // cMap.put("merch_order_id", "EO517116148107");
-        //  cMap.put("merch_txn_id", "EO517116148107");
+
         cMap.put("pay_type", "MC");
         cMap.put("currency", "344");
         cMap.put("amount", "45000");
 
-        cMap.put("return_url", "https://13.228.58.92/website/webview/octo3.php");
+        //   cMap.put("return_url", "https://13.228.58.92/website/webview/octo3.php");
         cMap.put("locale", "en_us");
         cMap.put("bill_to_city", "Hong Kong");
         cMap.put("bill_to_country_code", "HK");
@@ -84,7 +94,7 @@ public class IstPayment extends BasicWebViewNormal {
         cMap.put("remark", "online payment");
         cMap.put("card_num_prefix", "");
 
-        //cMap.put("return_url", "https://13.228.58.92/api_ticketing/api/transaction/octo3/datafeed");
+        cMap.put("return_url", "https://13.228.58.92/api_ticketing/api/transaction/octo3/datafeed");
         cMap.put("merch_data", "yIIbUFtqvOCeGFgt0owX-QUzLpyOShzJUvPOT4mGEnDc,Ry39SwbMhjvYv8VM6i-STjrsFqlnRDeivE8RokZf64jE,7hl8qtP09-cf6M3zI_");
 
 
@@ -92,6 +102,8 @@ public class IstPayment extends BasicWebViewNormal {
         cMap.put("access_id", "b5RhNyli");
 
 
+        // cMap.put("merch_order_id", "EO518345562108");
+        // cMap.put("merch_txn_id", "EO518345562108");
         return cMap;
     }
 
@@ -105,9 +117,6 @@ public class IstPayment extends BasicWebViewNormal {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void traditional() {
         WebSettings settings = block.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
         framer.setVisibility(View.VISIBLE);
         block.setWebChromeClient(new WebChromeClient());
         betterCircleBar.setVisibility(View.GONE);
@@ -132,29 +141,27 @@ public class IstPayment extends BasicWebViewNormal {
         block.loadData(sb.toString(), "text/html", "UTF-8");
     }
 
-    private static class IstPaymentDoneRedirection extends IstPaymentGatewayClient {
+    private class IstPaymentDoneRedirection extends IstPaymentGatewayClient {
         @Override
-        protected void onTrueUriIntecepting(Uri trigger_url, Set<String> params) {
+        protected void onTrueUriIntercepting(Uri trigger_url, Set<String> params) {
             Log.d(TAG, "investigateUrl ::: " + trigger_url.toString());
-            if (params.contains("txn_id") && params.contains("response_code") && !isInterceptionPassYet()) {
+            if (getConfirmationFromPayment(params)) {
                 interceptionPass();
-                Log.d(TAG, "trigger_url ass is now done!!!!!!!");
-                String tx = trigger_url.getQueryParameter("txn_id");
+                Log.d(TAG, "trigger_url ass is now done!!!!!!!" + getTxnId(trigger_url));
             }
+
             if (trigger_url.toString().equalsIgnoreCase("https://uat2.octo3.net/ecommerce-web/receiveCreditCard")) {
-            }
-            if (trigger_url.toString().equalsIgnoreCase("https://13.228.58.92/website/webview/octo3.php")) {
-                Log.d(TAG, "IstPaymentDoneRedirection ass is DS TIN RIGHT!!!!!!!");
             }
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-            Log.d(TAG, "onReceivedHttpError " + errorResponse.getReasonPhrase() + " - " + errorResponse.getStatusCode() + " -- " + request.getUrl() + " M:" + request.getMethod() + " Main?" + (request.isForMainFrame() ? " MAINFRAME" : " NON-MAINFRAME"));
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            Log.d(TAG, "onReceivedSslError! " + error.toString() + " : " + error.getPrimaryError());
+            handler.proceed();
         }
 
     }
+
 
     protected void loadCartContent() {
         IstPaymentDoneRedirection webViewClient = new IstPaymentDoneRedirection();
@@ -162,15 +169,12 @@ public class IstPayment extends BasicWebViewNormal {
             Fx9C
                     .with()
                     .setJavaScriptEnabled(true)
-                    // .setProgressBar(null)
                     .setProgressBar(betterCircleBar)
-                    //.setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Mobile/14E8301")
-                    // .setAnimationDuration(1600)
+                    .setAllowHTTPSMixedContentAllow()
                     .setWebViewClient(webViewClient)
                     .setWebViewHolder(framer)
                     .setWebView(block)
                     .loadUrlByPostAlternative(getMapping().get("url"), getMapping());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,8 +188,7 @@ public class IstPayment extends BasicWebViewNormal {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             loadCartContent();
         }
-        kkao();
-
+        //kkao();
         //traditional
         // loadCartContent();
     }

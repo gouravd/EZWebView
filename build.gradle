@@ -7,21 +7,20 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.novoda:bintray-release:0.5.0'
-
-        classpath "com.google.gms:google-services:${GOOGLE_CLASSPATH}"
-        classpath 'com.google.firebase:firebase-plugins:1.1.1'
+       // classpath "com.google.gms:google-services:${GOOGLE_CLASSPATH}"
+       // classpath 'com.google.firebase:firebase-plugins:1.1.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven {
+   /*     maven {
             url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-        }
-        maven {
+        }*/
+      /*  maven {
             url 'https://maven.google.com'
-        }
+        }*/
         mavenLocal()
     }
 }

@@ -38,6 +38,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
+import static android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE;
+import static android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW;
+
 /**
  * Created by hesk on 6/8/15.
  * This is the container library for display the efficient commands from the APIs
@@ -553,7 +557,6 @@ public class Fx9C {
     private boolean isChromeDebugEnabled = false;
     private boolean isJavaScriptEnabled = true;
     private boolean allowAutomaticMediaPlayback = false;
-    private boolean allowHTTPSMixedContent = false;
     private boolean zoomSupport = false;
     private boolean zoomSupportControl = false;
     private long animateDuration;
@@ -567,6 +570,7 @@ public class Fx9C {
     private Runnable onCompleteCallback = null;
     private CircleProgressBar progressBar = null;
     private String userAgent = null;
+    private int httpConfig = MIXED_CONTENT_NEVER_ALLOW;
 
     public static Fx9C with() {
         return new Fx9C();
@@ -594,9 +598,12 @@ public class Fx9C {
         return this;
     }
 
-
-    public Fx9C setAllowHTTPSMixedContent(boolean allow) {
-        allowHTTPSMixedContent = allow;
+    public Fx9C setAllowHTTPSMixedContentAllowAlways() {
+        httpConfig = MIXED_CONTENT_ALWAYS_ALLOW;
+        return this;
+    }
+    public Fx9C setAllowHTTPSMixedContentAllow() {
+        httpConfig = MIXED_CONTENT_COMPATIBILITY_MODE;
         return this;
     }
 
@@ -915,11 +922,11 @@ public class Fx9C {
             settings.setUserAgentString(userAgent);
         }
 
-        if (allowHTTPSMixedContent) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-            }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(httpConfig);
         }
+
         if (webViewClient instanceof BridgeWebViewClient && webView instanceof BridgeWebView) {
             settings.setJavaScriptEnabled(true);
         } else

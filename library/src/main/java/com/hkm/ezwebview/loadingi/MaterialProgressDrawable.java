@@ -137,8 +137,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
      * Set the overall size for the progress spinner. This updates the radius
      * and stroke width of the ring.
      *
-     * @param size One of {@link MaterialProgressDrawable.LARGE} or
-     *             {@link MaterialProgressDrawable.DEFAULT}
+     * @param size the size of it
      */
     public void updateSizes(@ProgressDrawableSize int size) {
         final DisplayMetrics metrics = mResources.getDisplayMetrics();
@@ -199,7 +198,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
      * The first color will also be the color of the bar that grows in response
      * to a user swipe gesture.
      *
-     * @param colors
+     * @param colors color membership
      */
     public void setColorSchemeColors(int... colors) {
         mRing.setColors(colors);
