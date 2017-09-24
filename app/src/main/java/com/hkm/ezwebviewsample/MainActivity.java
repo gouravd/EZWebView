@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.libRichTx: {
-                final String code = In32.fromFileRaw(this, R.raw.sample_no_video);
+                final String code = In32.fromFileRaw(this, R.raw.instruction_content);
                 ofFragment(RichTextBox.with(code));
                 break;
             }

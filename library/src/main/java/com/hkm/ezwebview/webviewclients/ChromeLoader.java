@@ -15,6 +15,7 @@ import com.hkm.ezwebview.loadingi.CircleProgressBar;
  */
 public class ChromeLoader extends WebChromeClient {
     private CircleProgressBar mCircleProgressBar;
+    private ProgressBar mCircleProgressDefault;
     private boolean control_webview_show_hide_onload = false;
     private Activity mActivity;
 
@@ -34,11 +35,19 @@ public class ChromeLoader extends WebChromeClient {
         time_of_fade = time_fade;
     }
 
-    public ChromeLoader(CircleProgressBar circlebar) {
-        mCircleProgressBar = circlebar;
+    private void init() {
         mCircleProgressBar.setCircleBackgroundEnabled(true);
         mCircleProgressBar.setVisibility(View.VISIBLE);
         mCircleProgressBar.setShowProgressText(true);
+    }
+
+    public ChromeLoader(ProgressBar circlebar) {
+        mCircleProgressDefault = circlebar;
+    }
+
+    public ChromeLoader(CircleProgressBar circlebar) {
+        mCircleProgressBar = circlebar;
+        init();
     }
 
     public ChromeLoader(Activity c) {
@@ -81,26 +90,68 @@ public class ChromeLoader extends WebChromeClient {
         }
     }
 
+    private boolean isProgressBarSetup() {
+        return mCircleProgressBar != null || mCircleProgressDefault != null;
+    }
+
+    private boolean isMatieralProgress() {
+        return mCircleProgressBar != null;
+    }
+
+    private boolean isDefaultProgress() {
+        return mCircleProgressDefault != null;
+    }
+
     @Override
     public void onProgressChanged(WebView view, int progress) {
-        if (mCircleProgressBar != null) {
+        if (isProgressBarSetup()) {
             if (progress < 100) {
-                mCircleProgressBar.setProgress(progress);
-                if (mCircleProgressBar.getVisibility() == View.GONE) {
-                    mCircleProgressBar.setVisibility(View.VISIBLE);
+
+                if (isMatieralProgress()) {
+                    mCircleProgressBar.setProgress(progress);
+                    if (mCircleProgressBar.getVisibility() == View.GONE) {
+                        mCircleProgressBar.setVisibility(View.VISIBLE);
+                    }
                 }
+
+                if (isDefaultProgress()) {
+                    mCircleProgressDefault.setProgress(progress);
+                    if (mCircleProgressDefault.getVisibility() == View.GONE) {
+                        mCircleProgressDefault.setVisibility(View.VISIBLE);
+                    }
+                }
+
                 if (control_webview_show_hide_onload && view.getVisibility() == View.VISIBLE)
                     view.setVisibility(View.GONE);
             } else {
+
                 if (time_of_fade > 0) {
-                    ViewCompat.animate(mCircleProgressBar).alpha(0f).withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCircleProgressBar.setVisibility(View.GONE);
-                        }
-                    });
+                    if (isMatieralProgress()) {
+                        ViewCompat.animate(mCircleProgressBar).alpha(0f).withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCircleProgressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+                    if (isDefaultProgress()) {
+                        ViewCompat.animate(mCircleProgressDefault).alpha(0f).withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCircleProgressDefault.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+
                 } else {
-                    mCircleProgressBar.setVisibility(View.GONE);
+                    if (isMatieralProgress()) {
+                        mCircleProgressBar.setVisibility(View.GONE);
+                    }
+                    if (isDefaultProgress()) {
+                        mCircleProgressDefault.setVisibility(View.GONE);
+                    }
                 }
 
                 if (control_webview_show_hide_onload && view.getVisibility() == View.GONE)

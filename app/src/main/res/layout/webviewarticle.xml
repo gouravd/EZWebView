@@ -41,7 +41,8 @@
                         android:background="@color/pink_300"
                         android:visibility="gone" />
 
-                    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar xmlns:fab="http://schemas.android.com/apk/res-auto"
+                    <com.hkm.ezwebview.loadingi.CircleProgressBar
+                        xmlns:fab="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/progressloadingbarpx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

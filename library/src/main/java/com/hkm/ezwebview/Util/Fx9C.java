@@ -6,6 +6,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.annotation.RawRes;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.BuildConfig;
@@ -35,12 +38,15 @@ import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
 import static android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE;
 import static android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW;
+import static com.hkm.ezwebview.Util.In32.loadRawRes;
+import static com.hkm.ezwebview.Util.In32.loadRawResWithCss;
 
 /**
  * Created by hesk on 6/8/15.
@@ -133,7 +139,6 @@ public class Fx9C {
                 null);
     }
 
-    @Deprecated
     public static <T> void setup_content_block_wb(
             final T context,
             final RelativeLayout frame_holder,
@@ -569,6 +574,7 @@ public class Fx9C {
     private ChromeLoader.OnCloseWindowCallback onCloseWindowCallback;
     private Runnable onCompleteCallback = null;
     private CircleProgressBar progressBar = null;
+    private ProgressBar progressBar_default = null;
     private String userAgent = null;
     private int httpConfig = MIXED_CONTENT_NEVER_ALLOW;
 
@@ -602,6 +608,7 @@ public class Fx9C {
         httpConfig = MIXED_CONTENT_ALWAYS_ALLOW;
         return this;
     }
+
     public Fx9C setAllowHTTPSMixedContentAllow() {
         httpConfig = MIXED_CONTENT_COMPATIBILITY_MODE;
         return this;
@@ -649,6 +656,11 @@ public class Fx9C {
 
     public Fx9C setProgressBar(CircleProgressBar progressBar) {
         this.progressBar = progressBar;
+        return this;
+    }
+
+    public Fx9C setProgressBar(ProgressBar progressBar) {
+        this.progressBar_default = progressBar;
         return this;
     }
 
@@ -740,10 +752,15 @@ public class Fx9C {
     private void updateWebChromeClient() {
         ChromeLoader webChromeClient = null;
         if (progressBar == null) {
-            webChromeClient = new ChromeLoader();
+            if (progressBar_default == null) {
+                webChromeClient = new ChromeLoader();
+            } else {
+                webChromeClient = new ChromeLoader(progressBar_default);
+            }
         } else {
             webChromeClient = new ChromeLoader(progressBar);
         }
+
         if (onCloseWindowCallback != null) {
             webChromeClient.setOnCloseWindowCallback(onCloseWindowCallback);
         }
@@ -796,6 +813,20 @@ public class Fx9C {
     public void loadUrl(String url) throws Exception {
         pre_config();
         webView.loadUrl(url);
+        post_config();
+    }
+
+    public void loadContentWithRawHTMLWithCssData(final @RawRes int html_body, final @RawRes int css_src, @Nullable HashMap<String, String> data) throws Exception {
+        pre_config();
+        String html_date = loadRawResWithCss(context, html_body, css_src, data);
+        webView.loadDataWithBaseURL("", html_date, DEFAULT_MIME_TYPE, DEFAULT_ENCODING, "");
+        post_config();
+    }
+
+    public void loadContentRenderedHTMLWithCss(final String html_rendered, final @RawRes int css_src_file) throws Exception {
+        pre_config();
+        String html_date = In32.appendStyleSessionAtFooterHTML(html_rendered, In32.cssframework(context, css_src_file));
+        webView.loadDataWithBaseURL("", html_date, DEFAULT_MIME_TYPE, DEFAULT_ENCODING, "");
         post_config();
     }
 

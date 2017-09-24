@@ -9,4 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="OPEN DIALOG FRAGMENT NON V4" />
+
+    <Button
+        android:id="@+id/button_only_open_black_screen"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="BLOCK SCREEN BLACK" />
+
+
+    <Button
+        android:id="@+id/button_popup_html"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="HTML POP UP TESTING" />
+
+
 </LinearLayout>

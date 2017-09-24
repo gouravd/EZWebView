@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
@@ -21,7 +22,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,7 +87,7 @@ public class In32 {
      * @param resource_raw_file_name the file
      * @return he string
      */
-    private static String cssframework(Context ctx, final @RawRes int resource_raw_file_name) {
+    public static String cssframework(Context ctx, final @RawRes int resource_raw_file_name) {
         StringBuilder sb = new StringBuilder();
         Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
         sb.append("<style type=\"text/css\">");
@@ -113,7 +116,6 @@ public class In32 {
     public static boolean interceptURL_HB(String url, Activity activity) {
         String HOST_TO_INTERCEPT = "amazon.com";
         String hostname = Uri.parse(url).getHost();
-
         if (hostname.endsWith(HOST_TO_INTERCEPT)) {
             String[] chunks = Uri.parse(url).getPath().split("/");
             // launch the specified app with the matching chunk as parameter
@@ -164,7 +166,7 @@ public class In32 {
         loadFromLocalFileText(myDir, action);
     }
 
-    public static void loadFromLocalFileText(File cachedFile, final loadListener read_done) throws IOException {
+    private static void loadFromLocalFileText(File cachedFile, final loadListener read_done) throws IOException {
         String UTF8 = "utf8";
         int BUFFER_SIZE = 8192;
 
@@ -234,5 +236,85 @@ public class In32 {
 
         }
         return videoId;
+    }
+
+
+    public static String loadRawRes(Context ctx, final @RawRes int resource_raw_file_name, @Nullable HashMap<String, String> data) {
+        StringBuilder sb = new StringBuilder();
+        Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
+        while (s.hasNextLine()) {
+            sb.append(s.nextLine() + "\n");
+        }
+        if (data == null) {
+            return sb.toString();
+        } else {
+            return formatMustacheFactory(sb.toString(), data);
+        }
+    }
+
+    public static String loadRawRes(Context ctx, final @RawRes int resource_raw_file_name) {
+        return loadRawRes(ctx, resource_raw_file_name, null);
+    }
+
+    public static String loadRawResWithCss(Context ctx, final @RawRes int html_body, final @RawRes int css_src) {
+        String style = cssframework(ctx, css_src);
+        String content = loadRawRes(ctx, html_body, null);
+        return appendStyleSessionAtFooterHTML(content, style);
+    }
+
+    public static String loadRawResWithCss(Context ctx, final @RawRes int html_body, final @RawRes int css_src, @Nullable HashMap<String, String> data) {
+        String style = cssframework(ctx, css_src);
+        String content = loadRawRes(ctx, html_body, data);
+        return appendStyleSessionAtFooterHTML(content, style);
+    }
+
+    private static final String fieldStart = "\\{";
+    private static final String fieldEnd = "\\}";
+    private static final String regex = fieldStart + "([^}]+)" + fieldEnd;
+    private static final Pattern pattern = Pattern.compile(regex);
+
+    public static String appendStyleSessionAtFooterHTML(String body, String cssTag) {
+        String result = body.replace("</body>", cssTag + "</body>");
+        return result;
+    }
+
+    public static String formatMustacheFactory(@Nullable String format, HashMap<String, String> objects) {
+        if (format == null) return "";
+        if (format.isEmpty()) return "";
+        Matcher m = pattern.matcher(format);
+        String result = format;
+        try {
+            while (m.find()) {
+                String key = m.group(1);
+                String found = "{" + key + "}";
+                String value = objects.get(key);
+                result = result.replace(found, value);
+            }
+        } catch (Exception e) {
+            return "";
+        }
+
+
+        Matcher t = pattern.matcher("/\\.\\/images/");
+
+        try {
+            String find = "file:///android_asset/images";
+            while (t.find()) {
+                String key = m.group(0);
+                result = result.replace(key, find);
+            }
+
+        } catch (Exception e) {
+
+        }
+
+
+        return result;
+    }
+
+    public static HashMap<String, String> getHTMLparamsBase() {
+        HashMap<String, String> ch = new HashMap<>();
+        ch.put("html-lang", "en");
+        return ch;
     }
 }

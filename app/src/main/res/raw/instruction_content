@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" lang="{html-lang}">
+<head>
+    <meta charset="utf-8">
+    <title>EMC Cinema</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+</head>
+<body>
+<div class="main" id="ticking-step-4main">
+  <div class="ticking-popup-content clearfix">
+              <div class="font-garamond ticking-popup-head">取票方法</div>
+              <div class="get-ticket-method">
+                      <div class="get-ticket-method-item">
+                              <div class="font-garamond get-ticket-method-head">方法<span class="font-garamond get-ticket-method-head-num">一</span></div>
+                              <div class="get-ticket-method-content">電子戲票將直接傳送至您的電郵及會員戶口(如適用)。您可直接於手機掃瞄QR Code入場及領取餐飲，無需列印。</div>
+                      </div>
+                      <div class="get-ticket-method-item">
+                              <div class="font-garamond get-ticket-method-head">方法<span class="font-garamond get-ticket-method-head-num">二</span></div>
+                              <div class="get-ticket-method-content">您亦可憑付款信用卡於戲院的自助售票機取票。</div>
+                      </div>
+              </div>
+
+              <div class="font-garamond ticking-popup-head">使用細則</div>
+              <div class="how-to-use">
+                      <div class="how-to-use-group">
+                              <div class="font-garamond how-to-use-head">電影</div>
+                              <div class="how-to-use-items">
+                                      <div class="how-to-use-item" style="transition-delay: 0.2s, 0.2s;">
+                                              <div class="how-to-use-icon" style="background-image: url('file:///android_asset/images/ticking/icon-1.svg');">
+                                                      <div class="font-garamond how-to-use-step"></div>
+                                              </div>
+                                              <div class="how-to-use-content">請掃瞄QR Code入場(可多人同時入場)</div>
+                                      </div>
+                              </div>
+                      </div>
+                      <div class="how-to-use-group">
+                              <div class="font-garamond how-to-use-head">餐飲</div>
+                              <div class="how-to-use-items">
+                                      <div class="how-to-use-item" style="transition-delay: 0.3s, 0.3s;">
+                                              <div class="how-to-use-icon" style="background-image: url('file:///android_asset/images/ticking/icon-2.svg');">
+                                                      <img src="file:///android_asset/images/ticking/icon-2.svg">
+                                                      <div class="font-garamond how-to-use-step">Step<span class="how-to-use-step-num">1</span></div>
+                                              </div>
+                                              <div class="how-to-use-content">Scan QR code at F&amp;B pick-up counter</div>
+                                      </div>
+                                      <div class="how-to-use-item" style="transition-delay: 0.4s, 0.4s;">
+                                              <div class="how-to-use-icon" style="background-image: url('file:///android_asset/images/ticking/icon-3.svg');">
+                                                      <img src="file:///android_asset/images/ticking/icon-3.svg">
+                                                      <div class="font-garamond how-to-use-step">Step<span class="how-to-use-step-num">2</span></div>
+                                              </div>
+                                              <div class="how-to-use-content">Your order number will be displayed on screen when food ready</div>
+                                      </div>
+                                      <div class="how-to-use-item" style="transition-delay: 0.5s, 0.5s;">
+                                              <div class="how-to-use-icon" style="background-image: url('file:///android_asset/images/ticking/icon-4.svg');">
+                                                      <img src="file:///android_asset/images/ticking/icon-4.svg">
+                                                      <div class="font-garamond how-to-use-step">Step<span class="how-to-use-step-num">3</span></div>
+                                              </div>
+                                              <div class="how-to-use-content">Show your ticket / e-ticket to pick-up your item(s)</div>
+                                      </div>
+                              </div>
+                      </div>
+              </div>
+
+              <div class="remark">
+                      <div class="remark-content">
+                              <div class="color-white">Remark</div>
+                              <div class="remark-content-text">{remarker_data}</div>
+                      </div>
+                      <div id="close-pop-btn"></div>
+              </div>
+      </div>
+
+</div>
+</body>
+</html>

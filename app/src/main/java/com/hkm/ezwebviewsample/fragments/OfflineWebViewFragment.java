@@ -3,10 +3,8 @@ package com.hkm.ezwebviewsample.fragments;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RawRes;
 import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +13,16 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.hkm.ezwebview.Util.Fx9C;
+import com.hkm.ezwebview.Util.In32;
+import com.hkm.ezwebview.webviewclients.ChromeLoader;
+import com.hkm.ezwebview.webviewclients.HClient;
 import com.hkm.ezwebview.webviewleakfix.NonLeakingWebView;
 import com.hkm.ezwebviewsample.R;
 
-import java.util.Scanner;
+
+import java.util.HashMap;
+
+import static com.hkm.ezwebview.Util.In32.loadRawResWithCss;
 
 /**
  * Created by hesk on 6/8/15.
@@ -41,39 +45,31 @@ public class OfflineWebViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.webviewarticle, container, false);
     }
 
-    private static String fromFileRaw(Context ctx, final @RawRes int resource_raw_file_name) {
-        StringBuilder sb = new StringBuilder();
-        Scanner s = new Scanner(ctx.getResources().openRawResource(resource_raw_file_name));
-        while (s.hasNextLine()) {
-            sb.append(s.nextLine() + "\n");
-        }
-        return sb.toString();
-    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(View v, Bundle b) {
         initBinding(v);
-        final String contentc = fromFileRaw(getActivity(), R.raw.sample_no_video);
+        final HashMap<String, String> data = In32.getHTMLparamsBase();
+        data.put("remarker_data", "this is the sample remark ......");
+
         try {
-            Fx9C.setup_content_block_wb(this, content_article_frame, block, contentc,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            ViewCompat.animate(mprogressbar).alpha(0f).withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mprogressbar.setVisibility(View.GONE);
-                                }
-                            });
-                        }
-                    });
+
+            block.getSettings().setJavaScriptEnabled(true);
+
+            Fx9C
+                    .with()
+                    .setProgressBar(mprogressbar)
+                    .setAnimationDuration(1600)
+                    .setWebViewClient(new HClient(getActivity(), block))
+                    .setWebViewHolder(content_article_frame)
+                    .setWebView(block)
+                    .loadContentWithRawHTMLWithCssData(R.raw.instruction_content, R.raw.instruction_css, data);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

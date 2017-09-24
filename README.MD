@@ -21,6 +21,7 @@ Feature list
 - [x] extra js script runtime
 - [x] JsBridge integration, make a bridge between Java and JavaScript.
 - [x] Youtube dialog display with material design.
+- [x] Support inject additional CSS for webview load. (use HBCart client)
 
 Download for the [Sample APK][2]
 
@@ -36,7 +37,7 @@ Remote Repo
 ```
 Dependency
 ```gradle
-   compile 'com.hkm.ezwebview:ezwebviewv:1.4.1'
+   compile 'com.hkm.ezwebview:ezwebviewv:1.5.13'
 ```
 
 

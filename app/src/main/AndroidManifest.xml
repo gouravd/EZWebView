@@ -25,6 +25,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".YoutubeVid"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/iosVideo" />
+
+        <activity
+            android:name=".PopupInfo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/iosVideo" />
 
 
     </application>

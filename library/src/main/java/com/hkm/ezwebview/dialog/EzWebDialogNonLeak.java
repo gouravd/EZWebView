@@ -74,18 +74,8 @@ public class EzWebDialogNonLeak extends DialogFragment implements DialogInterfac
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-
-
-
-
                 .setPositiveButton("Close", this)
                 // .setNegativeButton("No way", this)
-
-
-
-
-
-
                 .create();
 
     }

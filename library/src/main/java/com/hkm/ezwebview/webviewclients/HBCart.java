@@ -7,14 +7,19 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.RawRes;
+import android.util.Base64;
 import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.hkm.ezwebview.R;
+import com.hkm.ezwebview.Util.In32;
 import com.hkm.ezwebview.webviewleakfix.PreventLeakClient;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,7 +37,8 @@ public abstract class HBCart extends WebViewClient {
     private boolean reflect_response_content = false;
     private final WebView mWebView;
     public static String TAG = "hbcartclient";
-
+    @RawRes
+    private int raw_css_additional;
     private final ArrayList<String> allowing = new ArrayList<>();
     private final ArrayList<String> start_from = new ArrayList<>();
 
@@ -44,6 +50,10 @@ public abstract class HBCart extends WebViewClient {
         settings.setJavaScriptEnabled(true);
         fmWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         settings.setSaveFormData(true);
+    }
+
+    protected final void setAdditionlRawCss(@RawRes final int file_css) {
+        raw_css_additional = file_css;
     }
 
     public void defineBoundaries(
@@ -112,6 +122,9 @@ public abstract class HBCart extends WebViewClient {
         } else {
             redirect = false;
         }
+        if (raw_css_additional > 0) {
+            injectCSS(raw_css_additional);
+        }
         super.onPageFinished(view, url);
         retrieveContent();
     }
@@ -140,4 +153,24 @@ public abstract class HBCart extends WebViewClient {
         Matcher matcher = pattern.matcher(pageHTML);
         matcher.find();
     }
+
+
+    // Inject CSS method: read style.css from assets folder
+    // Append stylesheet to document head
+    private void injectCSS(@RawRes final int raw_css) {
+        try {
+            final String css_coding = In32.cssRawName(mContext, raw_css);
+            mWebView.loadUrl("javascript:(function() {" +
+                    "var parent = document.getElementsByTagName('head').item(0);" +
+                    "var style = document.createElement('style');" +
+                    "style.type = 'text/css';" +
+                    // Tell the browser to BASE64-decode the string into your script !!!
+                    "style.innerHTML = window.atob('" + css_coding + "');" +
+                    "parent.appendChild(style)" +
+                    "})()");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
