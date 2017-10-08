@@ -1,10 +1,5 @@
 package com.hkm.ezwebviewsample.fragments;
-
-import android.annotation.TargetApi;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.http.SslCertificate;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,22 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
 import com.hkm.ezwebview.webviewclients.IstPaymentGatewayClient;
 import com.hkm.ezwebviewsample.BuildConfig;
-import com.hkm.ezwebviewsample.R;
-
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
