@@ -17,11 +17,18 @@
         android:text="BLOCK SCREEN BLACK" />
 
 
-    <Button
+     <Button
         android:id="@+id/button_popup_html"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="HTML POP UP TESTING" />
+
+    <Button
+        android:id="@+id/button_popup_html2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="HTML POP UP TESTING...2" />
+
 
 
 </LinearLayout>

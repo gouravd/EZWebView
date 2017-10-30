@@ -37,6 +37,12 @@
             android:theme="@style/iosVideo" />
 
 
+        <activity
+            android:name=".PopupInfo2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
+
+
     </application>
 
 </manifest>

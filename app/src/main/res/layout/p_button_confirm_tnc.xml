@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/login_button_height"
+    android:background="@color/pink_900">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/pink_900"
+        android:padding="15dp"
+        app:srcCompat="@drawable/cio_ic_visa" />
+
+    <Button
+        android:id="@+id/confirm_tnc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:text="ok now"
+        android:textAlignment="center" />
+
+</RelativeLayout>

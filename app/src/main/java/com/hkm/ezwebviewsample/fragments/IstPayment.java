@@ -187,6 +187,11 @@ public class IstPayment extends BasicWebViewNormal {
         }, 2000);
     }
 
+    /**
+     * !!!! very important bug fix!
+     * remember! this webview must be using fix_height_view in order to make the redirection successful
+     * @return
+     */
     @Override
     protected int getLayoutId() {
         return com.hkm.ezwebview.R.layout.fix_height_view;

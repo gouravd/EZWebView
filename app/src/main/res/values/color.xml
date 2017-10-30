@@ -31,4 +31,5 @@
     <color name="purple_a200">#e040fb</color>
     <color name="purple_a400">#d500f9</color>
     <color name="purple_a700">#aa00ff</color>
+    <color name="colorPrimaryWhite">#cc70fa</color>
 </resources>

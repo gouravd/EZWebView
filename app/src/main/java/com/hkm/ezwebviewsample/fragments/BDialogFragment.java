@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.hkm.ezwebview.dialog.EzWebDialogNonLeak;
 import com.hkm.ezwebview.dialog.EzWebDialogNonLeakv4;
 import com.hkm.ezwebviewsample.PopupInfo;
+import com.hkm.ezwebviewsample.PopupInfo2;
 import com.hkm.ezwebviewsample.R;
 import com.hkm.ezwebviewsample.YoutubeVid;
 
@@ -31,6 +32,7 @@ public class BDialogFragment extends Fragment {
     private Button button_one;
     private Button button_only_open_black_screen;
     private Button button_popup_html;
+    private Button button_popup_html2;
 
     @Nullable
     @Override
@@ -44,6 +46,7 @@ public class BDialogFragment extends Fragment {
         button_one = (Button) view.findViewById(R.id.button_one);
         button_only_open_black_screen = (Button) view.findViewById(R.id.button_only_open_black_screen);
         button_popup_html = (Button) view.findViewById(R.id.button_popup_html);
+        button_popup_html2 = (Button) view.findViewById(R.id.button_popup_html2);
         button_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +66,12 @@ public class BDialogFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 PopupInfo.init_popup((AppCompatActivity) getActivity());
+            }
+        });
+        button_popup_html2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupInfo2.init_popup((AppCompatActivity) getActivity(), "https://www.emperorcinemas.com/webview/template.php?lang=chi&content=privacy");
             }
         });
     }
