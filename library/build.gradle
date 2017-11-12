@@ -14,14 +14,6 @@ android {
     }
 
     buildTypes {
-       /* libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def filename = output.outputFile.name
-                filename = filename.replace('library-', libPrefix).replace('.aar', '-' + defaultConfig.versionName + '.aar')
-                output.outputFile = new File(output.outputFile.parent, filename)
-            }
-        }*/
-
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -36,9 +28,9 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile supportDependencies.appCompat
-    compile supportDependencies.jsoup
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.jsoup
 }
 
 apply from: './br.gradle'
